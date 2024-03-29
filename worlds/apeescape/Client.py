@@ -278,8 +278,8 @@ class ApeEscapeClient(BizHawkClient):
     def unlockLevels(self, monkeylevelCounts, gadgets):
 
         key = self.worldkeycount
-        if key > 3 and (gadgets & RAM.items["Flyer"] != RAM.items["Flyer"]):
-            key = 3
+        # if key > 3 and (gadgets & RAM.items["Flyer"] != RAM.items["Flyer"]):
+        #    key = 3
 
         current = RAM.levelStatus["Open"].to_bytes(1, byteorder="little")
         currentLock = RAM.levelStatus["Locked"].to_bytes(1, byteorder="little")
