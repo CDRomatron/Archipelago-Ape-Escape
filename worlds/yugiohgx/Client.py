@@ -162,13 +162,15 @@ class YuGiOhGXClient(BizHawkClient):
                                              (0x3848, 2, self.combined_wram),
                                              (0x01d8, 1, self.combined_wram),
                                              (0x4ce8, 1, self.combined_wram),
-                                             (0x4d64, 2, self.combined_wram)])
+                                             (0x4d64, 2, self.combined_wram),
+                                             (0x6190, 1, self.combined_wram)])
             winNumber = int.from_bytes(extraReads[0], byteorder="little")
             lossNumber = int.from_bytes(extraReads[1], byteorder="little")
             duelPoints = int.from_bytes(extraReads[2], byteorder="little")
             redEyesNumber = int.from_bytes(extraReads[3], byteorder="little")
             rank = int.from_bytes(extraReads[4], byteorder="little")
             shepard_wins = int.from_bytes(extraReads[5], byteorder="little")
+            forty_in_shop = int.from_bytes(extraReads[6], byteorder="little")
             dp_count = 0
 
             # King of Games is 68, plus 0 for Red, 1 for Yellow, and 2 for Blue
@@ -200,16 +202,26 @@ class YuGiOhGXClient(BizHawkClient):
                     dp_count += 1
                 keyItems.append(item.item - self.offset)
 
+            if forty_in_shop == 0x40:
+                cardsanitycards = []
+                locations = ctx.checked_locations
+                for card in locations:
+                    if 10001 <= card - self.offset <= 11200:
+                        cardsanitycards.append(card - self.offset - 10000)
+
             # Writing the cards to the inventory depending on settings.
             # Red-Eyes is used to check if starting inventory is set.
             writes = []
+            # Instant Cards ON, CardSanity OFF
             if ctx.slot_data["instant"] == InstantCardOption.option_true \
                     and ctx.slot_data["cardsanity"] == CardSanityOption.option_false:
-                writes += self.cardWrites(packsFromItems)
+                writes += self.cardWrites(packsFromItems, True)
+            # CardSanity ON
             elif ctx.slot_data["cardsanity"] == CardSanityOption.option_true:
-                writes += self.cardWrites([cardsanitycards])
+                writes += self.cardWrites([cardsanitycards], forty_in_shop != 0x40)
+            # Instant Cards OFF, CardSanity OFF
             elif redEyesNumber == 0x0A:
-                writes += self.cardWrites([])
+                writes += self.cardWrites([], True)
 
             # Add DP from items
             if dp_count > shepard_wins and dp_count > self.local_dp_count:
@@ -318,17 +330,17 @@ class YuGiOhGXClient(BizHawkClient):
             # Update the locally stored wins, to later see if wins are needing sent.
             self.local_wins = wins
 
-            # POSSILBLE BUG HERE!!! FIRST CARD MIGHT STAY SAME BETWEEN TWO PACKS!!! ALSO LAST LOOKED AT CARD IN INV MIGHT BE FOIL IF SORTED!!!
             # Cardsanity only section.
             if ctx.slot_data["cardsanity"] == CardSanityOption.option_true:
                 pack_location = 0xBBB0
                 # Check the first card in the inventory, to check A: if the card is different from previous, and B:
                 # if the card has a special modifier. Also, additional check for location, 40 being shop.
-                shop_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(0x6190, 1, self.combined_wram),
-                                                                        (0x2B130, 1, self.combined_wram)])
+                shop_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(0x2B130, 1, self.combined_wram)])
 
-                forty_in_shop = int.from_bytes(shop_bytes[0], byteorder="little")
-                selection_state = int.from_bytes(shop_bytes[1], byteorder="little")
+
+                selection_state = int.from_bytes(shop_bytes[0], byteorder="little")
+
+                test = ctx.checked_locations
                 if (selection_state == 0x16 or selection_state == 0x13) and forty_in_shop == 0x40:
                     cards_in_pack = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
@@ -369,10 +381,11 @@ class YuGiOhGXClient(BizHawkClient):
             # Exit handler and return to main loop to reconnect
             pass
 
-    def cardWrites(self, packsFromItems):
+    def cardWrites(self, packsFromItems, includeStarter):
         out = []
         cardlist = []
-        cardlist.extend(starterDeck)
+        if includeStarter:
+            cardlist.extend(starterDeck)
         for pack in packsFromItems:
             cardlist.extend(pack)
         for x in range(1200):
