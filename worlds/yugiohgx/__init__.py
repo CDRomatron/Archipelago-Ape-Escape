@@ -104,8 +104,13 @@ class YuGiOhGXWorld(World):
 
         self.itempool += [wins, timed, written]
 
-        for x in Strings.Packs:
-            self.itempool += [(self.create_item(x.value))]
+        list_of_packs = []
+        for Pack in Strings.Packs:
+            list_of_packs.append(Pack.value)
+        if self.options.dorothy.value == 0x02:
+            list_of_packs = list_of_packs[:-1]
+        for x in list_of_packs:
+            self.itempool += [(self.create_item(x))]
 
         if self.options.cardsanity == 0x00:
             for x in Strings.Cards:
@@ -124,7 +129,7 @@ class YuGiOhGXWorld(World):
             "instant": self.options.instant.value,
             "cardsanity": self.options.cardsanity.value,
             "logic": self.options.logic.value,
-            "dorothy": self.options.logic.value
+            "dorothy": self.options.dorothy.value
         }
 
 

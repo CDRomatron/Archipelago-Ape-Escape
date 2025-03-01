@@ -22,7 +22,9 @@ def set_rules(world: "YuGiOhGXWorld"):
                         lambda state: state.has(Items.Wins.value, world.player, 1)
                                       and state.has(Items.Timed.value, world.player, 1)
                                       and state.has(Items.Written.value, world.player, 1)
-                                      and cardsinsets(GetListOfPacks(state, world)) == 1200)
+                                      and (cardsinsets(GetListOfPacks(state, world)) == 1200
+                                           or cardsinsets(GetListOfPacks(state, world)) == 1199
+                                           and world.options.dorothy == 0x02))
     else:
         connect_regions(world, "Menu", "Slifer", lambda state: True)
 
@@ -143,7 +145,7 @@ def set_rules(world: "YuGiOhGXWorld"):
         for card in Cards:
             card_names.append(card.value)
         for x in range(48):
-            cards = allPacks[x]
+            cards = get_all_packs(world.options.dorothy == 0x01)[x]
             for card in cards:
                 connect_regions(world, pack_names[x], card_names[card - 1], lambda state: True)
 
@@ -174,6 +176,6 @@ def GetListOfPacks(state, world):
     count = 0
     for pack in Packs:
         if state.has(pack.value, world.player, 1):
-            packs.append(allPacks[count])
+            packs.append(get_all_packs(world.options.dorothy == 0x01)[count])
         count += 1
     return packs

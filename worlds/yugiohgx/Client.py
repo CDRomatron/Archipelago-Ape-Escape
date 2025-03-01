@@ -7,7 +7,7 @@ from Options import Toggle
 from NetUtils import ClientStatus
 from worlds.oot.Patches import get_override_table_bytes
 from .Packs import *
-from .Options import InstantCardOption, CardSanityOption, WinsEachOption
+from .Options import InstantCardOption, CardSanityOption, WinsEachOption, DorothyLogicOption
 from .Strings import gamename
 
 # TODO: REMOVE ASAP - Borrowed from MM2
@@ -194,7 +194,7 @@ class YuGiOhGXClient(BizHawkClient):
             cardsanitycards = []
             for item in ctx.items_received:
                 if 1 <= item.item - self.offset <= 48:
-                    packsFromItems.append(allPacks[item.item - self.offset - 1])
+                    packsFromItems.append(get_all_packs(ctx.slot_data["dorothy"] == DorothyLogicOption.option_all)[item.item - self.offset - 1])
                 elif ctx.slot_data["cardsanity"] == CardSanityOption.option_true \
                         and 10001 <= item.item - self.offset <= 11200:
                     cardsanitycards.append(item.item - self.offset - 10000)
@@ -215,13 +215,13 @@ class YuGiOhGXClient(BizHawkClient):
             # Instant Cards ON, CardSanity OFF
             if ctx.slot_data["instant"] == InstantCardOption.option_true \
                     and ctx.slot_data["cardsanity"] == CardSanityOption.option_false:
-                writes += self.cardWrites(packsFromItems, True)
+                writes += self.cardWrites(packsFromItems, True, ctx.slot_data["dorothy"] == DorothyLogicOption.option_off)
             # CardSanity ON
             elif ctx.slot_data["cardsanity"] == CardSanityOption.option_true:
-                writes += self.cardWrites([cardsanitycards], forty_in_shop != 0x40)
+                writes += self.cardWrites([cardsanitycards], forty_in_shop != 0x40, False)
             # Instant Cards OFF, CardSanity OFF
             elif redEyesNumber == 0x0A:
-                writes += self.cardWrites([], True)
+                writes += self.cardWrites([], True, ctx.slot_data["dorothy"] == DorothyLogicOption.option_off)
 
             # Add DP from items
             if dp_count > shepard_wins and dp_count > self.local_dp_count:
@@ -381,11 +381,13 @@ class YuGiOhGXClient(BizHawkClient):
             # Exit handler and return to main loop to reconnect
             pass
 
-    def cardWrites(self, packsFromItems, includeStarter):
+    def cardWrites(self, packsFromItems, includeStarter, includeEHSFW):
         out = []
         cardlist = []
         if includeStarter:
             cardlist.extend(starterDeck)
+        if includeEHSFW:
+            cardlist.extend([1200])
         for pack in packsFromItems:
             cardlist.extend(pack)
         for x in range(1200):

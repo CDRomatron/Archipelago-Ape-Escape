@@ -200,10 +200,29 @@ spellcastersDance = [594, 896, 23, 326, 334, 516, 776, 841, 12, 190, 218, 257, 3
 
 dorothysGift = [1200]
 
-allPacks = [basic1A, basic1B, basic2A, basic2B, basic3A, basic3B, basic4A, basic4B, basic1C, basic2C, basic3C, basic4C,
-            effectMonsters, variousFields, equipments, fusions, rituals, continuousEffects, spellCollection1,
-            spellCollection2, trapCollection1, trapCollection2, expert1, expert2, expert3, expert4, powerDestructions,
-            effectMonstersSpecial, masterFusions, spellSpecial1, spellSpecial2, trapSpecial1, trapSpecial2, theHero,
-            liveVehicles, residentsOfTheSea, fairyDance, insectsNest, dragonsInFlight, beastsInFight, beQuick,
-            specialWays,
-            invitationToTheDark, pyrogen, theWarriors, theMachines, spellcastersDance, dorothysGift]
+dorothysGiftAll = []
+for x in range(1200):
+    dorothysGiftAll.append(x+1)
+
+
+def get_all_packs(dorothy_all):
+    if dorothy_all:
+        return [basic1A, basic1B, basic2A, basic2B, basic3A, basic3B, basic4A, basic4B, basic1C, basic2C, basic3C,
+                basic4C,
+                effectMonsters, variousFields, equipments, fusions, rituals, continuousEffects, spellCollection1,
+                spellCollection2, trapCollection1, trapCollection2, expert1, expert2, expert3, expert4,
+                powerDestructions,
+                effectMonstersSpecial, masterFusions, spellSpecial1, spellSpecial2, trapSpecial1, trapSpecial2, theHero,
+                liveVehicles, residentsOfTheSea, fairyDance, insectsNest, dragonsInFlight, beastsInFight, beQuick,
+                specialWays,
+                invitationToTheDark, pyrogen, theWarriors, theMachines, spellcastersDance, dorothysGiftAll]
+    else:
+        return [basic1A, basic1B, basic2A, basic2B, basic3A, basic3B, basic4A, basic4B, basic1C, basic2C, basic3C,
+                basic4C,
+                effectMonsters, variousFields, equipments, fusions, rituals, continuousEffects, spellCollection1,
+                spellCollection2, trapCollection1, trapCollection2, expert1, expert2, expert3, expert4,
+                powerDestructions,
+                effectMonstersSpecial, masterFusions, spellSpecial1, spellSpecial2, trapSpecial1, trapSpecial2, theHero,
+                liveVehicles, residentsOfTheSea, fairyDance, insectsNest, dragonsInFlight, beastsInFight, beQuick,
+                specialWays,
+                invitationToTheDark, pyrogen, theWarriors, theMachines, spellcastersDance, dorothysGift]

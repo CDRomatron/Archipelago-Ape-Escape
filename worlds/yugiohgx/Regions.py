@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Region, Entrance
 from .Locations import location_table, YugiohGXLocation
-from .Packs import allPacks
+from .Packs import get_all_packs
 from .Strings import Packs, Cards
 
 
