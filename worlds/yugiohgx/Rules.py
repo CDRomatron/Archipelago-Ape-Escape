@@ -11,10 +11,12 @@ def set_rules(world: "YuGiOhGXWorld"):
     if world.options.cardsanity == 0x01:
         connect_regions(world, "Menu", "Slifer", lambda state: True)
 
-        connect_regions(world, "Slifer", "Ra", lambda state: cardsinsets(GetListOfPacks(state, world)) >= 400)
+        connect_regions(world, "Slifer", "Ra", lambda state: (cardsinsets(GetListOfPacks(state, world)) >= 400 or
+                                                              world.options.logic == 0x02))
 
-        connect_regions(world, "Ra", "Obelisk", lambda state: cardsinsets(GetListOfPacks(state, world)) >= 800
-                        and state.has(Items.Timed.value, world.player, 1))
+        connect_regions(world, "Ra", "Obelisk", lambda state:
+            (cardsinsets(GetListOfPacks(state, world)) >= 800 or world.options.logic == 0x02)
+            and state.has(Items.Timed.value, world.player, 1))
 
         connect_regions(world, "Obelisk", "Victory",
                         lambda state: state.has(Items.Wins.value, world.player, 1)
@@ -24,9 +26,12 @@ def set_rules(world: "YuGiOhGXWorld"):
     else:
         connect_regions(world, "Menu", "Slifer", lambda state: True)
 
-        connect_regions(world, "Slifer", "Ra", lambda state: getCardCountCardsanity(state, world) >= 400)
+        connect_regions(world, "Slifer", "Ra",
+                        lambda state: getCardCountCardsanity(state, world) >= 400 or world.options.logic == 0x02)
 
-        connect_regions(world, "Ra", "Obelisk", lambda state: getCardCountCardsanity(state, world) >= 800)
+        connect_regions(world, "Ra", "Obelisk", lambda state:
+            (getCardCountCardsanity(state,world) >= 800 or world.options.logic == 0x02)
+            and state.has(Items.Timed.value, world.player, 1))
 
         connect_regions(world, "Obelisk", "Victory",
                         lambda state: state.has(Items.Wins.value, world.player, 1)
@@ -140,7 +145,7 @@ def set_rules(world: "YuGiOhGXWorld"):
         for x in range(48):
             cards = allPacks[x]
             for card in cards:
-                connect_regions(world, pack_names[x], card_names[card-1], lambda state: True)
+                connect_regions(world, pack_names[x], card_names[card - 1], lambda state: True)
 
     world.multiworld.completion_condition[world.player] = lambda state: state.has(Items.Victory.value, world.player, 1)
 
@@ -154,6 +159,7 @@ def cardsinsets(listOfExp):
 
     cardSet = set(cardList)
     return len(cardSet)
+
 
 def getCardCountCardsanity(state, world):
     count = 0

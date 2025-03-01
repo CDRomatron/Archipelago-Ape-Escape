@@ -14,7 +14,8 @@ from .Locations import location_table, base_location_id
 from .Regions import create_regions
 from .Rules import set_rules
 from .Client import YuGiOhGXClient
-from .Options import YugiohGXOptions, WinsEachOption, InstantCardOption, CardSanityOption
+from .Options import YugiohGXOptions, WinsEachOption, InstantCardOption, CardSanityOption, LogicOption, \
+    DorothyLogicOption
 from Options import AssembleOptions
 
 class YuGiOhGXWeb(WebWorld):
@@ -57,12 +58,16 @@ class YuGiOhGXWorld(World):
         self.wins : Optional[int] = 0
         self.instant: Optional[int] = 0
         self.cardsanity: Optional[int] = 0
+        self.logic: Optional[int] = 0
+        self.dorothy: Optional[int] = 0
 
     def generate_early(self) -> None:
         self.itempool = []
         self.wins = self.options.wins
         self.instant = self.options.instant
         self.cardsanity = self.options.cardsanity
+        self.logic = self.options.logic
+        self.dorothy = self.options.dorothy
 
     def create_regions(self):
         create_regions(self)
@@ -117,7 +122,9 @@ class YuGiOhGXWorld(World):
         return {
             "wins": self.options.wins.value,
             "instant": self.options.instant.value,
-            "cardsanity": self.options.cardsanity.value
+            "cardsanity": self.options.cardsanity.value,
+            "logic": self.options.logic.value,
+            "dorothy": self.options.logic.value
         }
 
 

@@ -31,8 +31,12 @@ def create_regions(world: "YuGiOhGXWorld"):
     slifer.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], slifer) for loc_name in
                          get_array(get_next_x(1051, options.wins.value))] # Gerard
 
-    ra.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], ra) for loc_name in
-                     get_array(get_next_x(1061, options.wins.value))] # Bastion
+    if options.logic == 0x01:
+        slifer.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], slifer) for loc_name in
+                        get_array(get_next_x(1061, options.wins.value))] # Bastion
+    else:
+        ra.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], ra) for loc_name in
+                         get_array(get_next_x(1061, options.wins.value))]  # Bastion
     ra.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], ra) for loc_name in
                      get_array(get_next_x(1071, options.wins.value))] # Brier
     ra.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], ra) for loc_name in
@@ -42,20 +46,32 @@ def create_regions(world: "YuGiOhGXWorld"):
     ra.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], ra) for loc_name in
                      get_array(get_next_x(1101, options.wins.value))] # Sartyr
 
+    if options.logic == 0x01:
+        slifer.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], slifer) for loc_name in
+                              get_array(get_next_x(1111, options.wins.value))] # Alexis
+        slifer.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], slifer) for loc_name in
+                              get_array(get_next_x(1121, options.wins.value))] # Chazz
+        slifer.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], slifer) for loc_name in
+                              get_array(get_next_x(1151, options.wins.value))] # Fontaine
+        slifer.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], slifer) for loc_name in
+                              get_array(get_next_x(1161, options.wins.value))] # Crowler
+        slifer.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], slifer) for loc_name in
+                              get_array(get_next_x(1171, options.wins.value))] # Zane
+    else:
+        obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
+                              get_array(get_next_x(1111, options.wins.value))]  # Alexis
+        obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
+                              get_array(get_next_x(1121, options.wins.value))]  # Chazz
+        obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
+                              get_array(get_next_x(1151, options.wins.value))]  # Fontaine
+        obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
+                              get_array(get_next_x(1161, options.wins.value))]  # Crowler
+        obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
+                              get_array(get_next_x(1171, options.wins.value))]  # Zane
     obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
-                          get_array(get_next_x(1111, options.wins.value))] # Alexis
+                          get_array(get_next_x(1131, options.wins.value))]  # Torrey
     obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
-                          get_array(get_next_x(1121, options.wins.value))] # Chazz
-    obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
-                          get_array(get_next_x(1131, options.wins.value))] # Torrey
-    obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
-                          get_array(get_next_x(1141, options.wins.value))] # Damon
-    obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
-                          get_array(get_next_x(1151, options.wins.value))] # Fontaine
-    obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
-                          get_array(get_next_x(1161, options.wins.value))] # Crowler
-    obelisk.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], obelisk) for loc_name in
-                          get_array(get_next_x(1171, options.wins.value))] # Zane
+                          get_array(get_next_x(1141, options.wins.value))]  # Damon
 
     victory.locations += [YugiohGXLocation(player, loc_name, location_table[loc_name], victory) for loc_name in
                           get_array([0])]
