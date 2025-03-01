@@ -46,7 +46,6 @@ class YuGiOhGXClient(BizHawkClient):
     local_found_key_items: Dict[str, bool]
     goal_flag: int
     local_wins = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    local_first_from_pack_id = 0
     local_dp_count = 0
 
     win_addresses = [
@@ -163,7 +162,7 @@ class YuGiOhGXClient(BizHawkClient):
                                              (0x3848, 2, self.combined_wram),
                                              (0x01d8, 1, self.combined_wram),
                                              (0x4ce8, 1, self.combined_wram),
-                                             (0x4c64, 2, self.combined_wram)])
+                                             (0x4d64, 2, self.combined_wram)])
             winNumber = int.from_bytes(extraReads[0], byteorder="little")
             lossNumber = int.from_bytes(extraReads[1], byteorder="little")
             duelPoints = int.from_bytes(extraReads[2], byteorder="little")
@@ -183,7 +182,7 @@ class YuGiOhGXClient(BizHawkClient):
                     "status": ClientStatus.CLIENT_GOAL
                 }])
 
-            # An array, of arrays, containg every card id in the pack
+            # An array, of arrays, containing every card id in the pack
             packsFromItems = []
 
             # An array of every item, after removing the offset
@@ -311,7 +310,7 @@ class YuGiOhGXClient(BizHawkClient):
             writes.append((0x3B5AD, unlockedPacks[5].to_bytes(1, "little"), self.combined_wram))
 
             # Write number of received dp to shepard wins, as it's unused here.
-            writes.append((0x4c64, dp_count.to_bytes(2, "little"), self.combined_wram))
+            writes.append((0x4d64, dp_count.to_bytes(2, "little"), self.combined_wram))
 
             writes.extend(winWrites)
             await bizhawk.write(ctx.bizhawk_ctx, writes)
@@ -325,24 +324,30 @@ class YuGiOhGXClient(BizHawkClient):
                 pack_location = 0xBBB0
                 # Check the first card in the inventory, to check A: if the card is different from previous, and B:
                 # if the card has a special modifier. Also, additional check for location, 40 being shop.
-                first_card_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(pack_location, 2, self.combined_wram),
-                                                                        (pack_location + 2, 2, self.combined_wram),
-                                                                        (0x6190, 1, self.combined_wram)])
-                first_card = int.from_bytes(first_card_bytes[0], byteorder="little")
-                first_card_mod = int.from_bytes(first_card_bytes[1], byteorder="little")
-                forty_in_shop = int.from_bytes(first_card_bytes[2], byteorder="little")
-                if first_card != 0 and first_card != self.local_first_from_pack_id and first_card_mod != 0 \
-                        and forty_in_shop == 0x40:
-                    cards_in_pack = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                    first_run = True
+                shop_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(0x6190, 1, self.combined_wram),
+                                                                        (0x2B130, 1, self.combined_wram)])
+
+                forty_in_shop = int.from_bytes(shop_bytes[0], byteorder="little")
+                selection_state = int.from_bytes(shop_bytes[1], byteorder="little")
+                if (selection_state == 0x16 or selection_state == 0x13) and forty_in_shop == 0x40:
+                    cards_in_pack = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
                     # Loop while the 10th read card is not empty, or is the first run through.
-                    while cards_in_pack[9] != 0 or first_run is True:
+                    while cards_in_pack[9] != 0:
                         cards_to_send = set()
-                        pack_read_tuples = []
+                        pack_read_tuples = [
+                            (pack_location + 0, 2, self.combined_wram),
+                            (pack_location + 4, 2, self.combined_wram),
+                            (pack_location + 8, 2, self.combined_wram),
+                            (pack_location + 12, 2, self.combined_wram),
+                            (pack_location + 16, 2, self.combined_wram),
+                            (pack_location + 20, 2, self.combined_wram),
+                            (pack_location + 24, 2, self.combined_wram),
+                            (pack_location + 28, 2, self.combined_wram),
+                            (pack_location + 32, 2, self.combined_wram),
+                            (pack_location + 36, 2, self.combined_wram)
+                        ]
 
-                        for x in range(10):
-                            pack_read_tuples.append((pack_location + (x * 4), 2, self.combined_wram))
                         pack_bytes = await bizhawk.read(ctx.bizhawk_ctx, pack_read_tuples)
 
                         # For each card, keep taking away 2048 to get the ID. Then add offset to send as location.
@@ -353,16 +358,12 @@ class YuGiOhGXClient(BizHawkClient):
                             if cards_in_pack[x] != 0:
                                 cards_to_send.add(cards_in_pack[x] + 10000 + self.offset)
 
-                        # Update the locally stored "First card" to compare against
-                        if first_run:
-                            self.local_first_from_pack_id = cards_in_pack[0]
                         if cards_to_send is not None and cards_to_send != set():
                             await ctx.send_msgs([{
                                 "cmd": "LocationChecks",
                                 "locations": list(x for x in cards_to_send)
                             }])
                         pack_location += 40
-                        first_run = False
 
         except bizhawk.RequestFailedError:
             # Exit handler and return to main loop to reconnect
