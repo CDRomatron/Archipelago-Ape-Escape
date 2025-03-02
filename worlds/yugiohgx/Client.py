@@ -325,7 +325,9 @@ class YuGiOhGXClient(BizHawkClient):
             writes.append((0x4d64, dp_count.to_bytes(2, "little"), self.combined_wram))
 
             writes.extend(winWrites)
-            await bizhawk.write(ctx.bizhawk_ctx, writes)
+
+            if forty_in_shop != 0xC0:
+                await bizhawk.write(ctx.bizhawk_ctx, writes)
 
             # Update the locally stored wins, to later see if wins are needing sent.
             self.local_wins = wins
@@ -341,24 +343,16 @@ class YuGiOhGXClient(BizHawkClient):
                 selection_state = int.from_bytes(shop_bytes[0], byteorder="little")
 
                 test = ctx.checked_locations
-                if (selection_state == 0x16 or selection_state == 0x13) and forty_in_shop == 0x40:
+                if (selection_state == 0x16 or selection_state == 0x13 or selection_state == 0x17) and forty_in_shop == 0x40:
                     cards_in_pack = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
                     # Loop while the 10th read card is not empty, or is the first run through.
                     while cards_in_pack[9] != 0:
                         cards_to_send = set()
-                        pack_read_tuples = [
-                            (pack_location + 0, 2, self.combined_wram),
-                            (pack_location + 4, 2, self.combined_wram),
-                            (pack_location + 8, 2, self.combined_wram),
-                            (pack_location + 12, 2, self.combined_wram),
-                            (pack_location + 16, 2, self.combined_wram),
-                            (pack_location + 20, 2, self.combined_wram),
-                            (pack_location + 24, 2, self.combined_wram),
-                            (pack_location + 28, 2, self.combined_wram),
-                            (pack_location + 32, 2, self.combined_wram),
-                            (pack_location + 36, 2, self.combined_wram)
-                        ]
+                        pack_read_tuples = []
+
+                        for x in range(1200):
+                            pack_read_tuples.append((pack_location + (4 * x), 2, self.combined_wram))
 
                         pack_bytes = await bizhawk.read(ctx.bizhawk_ctx, pack_read_tuples)
 
