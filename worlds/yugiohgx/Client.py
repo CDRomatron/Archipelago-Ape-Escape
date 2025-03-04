@@ -160,7 +160,7 @@ class YuGiOhGXClient(BizHawkClient):
             extraReads = await bizhawk.read(ctx.bizhawk_ctx,
                                             [(0x4cf0, 2, self.combined_wram),
                                              (0x4cf2, 2, self.combined_wram),
-                                             (0x3848, 2, self.combined_wram),
+                                             (0x3848, 4, self.combined_wram),
                                              (0x01d8, 1, self.combined_wram),
                                              (0x4ce8, 1, self.combined_wram),
                                              (0x4d64, 2, self.combined_wram),
