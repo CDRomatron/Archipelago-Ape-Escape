@@ -136,7 +136,7 @@ def set_rules(world: "YuGiOhGXWorld"):
         connect_regions(world, 'Slifer', Packs.SpellCastersDance.value,
                         lambda state: state.has(Packs.SpellCastersDance.value, world.player, 1))
         connect_regions(world, 'Slifer', Packs.DorothysGift.value,
-                        lambda state: state.has(Packs.DorothysGift.value, world.player, 1))
+                        lambda state: state.has(Packs.DorothysGift.value, world.player, 1) or world.options.dorothy == 0x02)
 
         pack_names = []
         card_names = []

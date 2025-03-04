@@ -3,7 +3,7 @@ import os
 import json
 from typing import ClassVar, Dict, List, Tuple, Optional, TextIO
 
-from BaseClasses import ItemClassification, MultiWorld, Tutorial, CollectionState
+from BaseClasses import ItemClassification, MultiWorld, Tutorial, CollectionState, LocationProgressType
 from logging import warning
 from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
@@ -115,11 +115,12 @@ class YuGiOhGXWorld(World):
         if self.options.cardsanity == 0x00:
             for x in Strings.Cards:
                 self.itempool += [(self.create_item(x.value))]
+            self.get_location("Card - Elemental Hero Shining Flare Wingman").progress_type = LocationProgressType.EXCLUDED
 
         self.get_location("Victory").place_locked_item(victory)
 
         for _ in range(len(self.multiworld.get_unfilled_locations(self.player)) - len(self.itempool)):
-            self.itempool += [self.create_item_useful(Strings.Items.DP.value)]
+            self.itempool += [self.create_item_filler(Strings.Items.DP.value)]
 
         self.multiworld.itempool += self.itempool
 
