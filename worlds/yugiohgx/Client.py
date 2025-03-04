@@ -47,6 +47,7 @@ class YuGiOhGXClient(BizHawkClient):
     goal_flag: int
     local_wins = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     local_dp_count = 0
+    card_bulk_to_send = 0  # AP is unhappy with 1200 writes at once, breaking them into groups
 
     win_addresses = [
         0x4cfc,  # Jaden
@@ -194,7 +195,8 @@ class YuGiOhGXClient(BizHawkClient):
             cardsanitycards = []
             for item in ctx.items_received:
                 if 1 <= item.item - self.offset <= 48:
-                    packsFromItems.append(get_all_packs(ctx.slot_data["dorothy"] == DorothyLogicOption.option_all)[item.item - self.offset - 1])
+                    packsFromItems.append(get_all_packs(ctx.slot_data["dorothy"] == DorothyLogicOption.option_all)[
+                                              item.item - self.offset - 1])
                 elif ctx.slot_data["cardsanity"] == CardSanityOption.option_true \
                         and 10001 <= item.item - self.offset <= 11200:
                     cardsanitycards.append(item.item - self.offset - 10000)
@@ -215,19 +217,22 @@ class YuGiOhGXClient(BizHawkClient):
             # Instant Cards ON, CardSanity OFF
             if ctx.slot_data["instant"] == InstantCardOption.option_true \
                     and ctx.slot_data["cardsanity"] == CardSanityOption.option_false:
-                writes += self.cardWrites(packsFromItems, True, ctx.slot_data["dorothy"] == DorothyLogicOption.option_off)
+                writes += self.cardWrites(packsFromItems, True,
+                                          ctx.slot_data["dorothy"] == DorothyLogicOption.option_off,
+                                          self.card_bulk_to_send)
             # CardSanity ON
             elif ctx.slot_data["cardsanity"] == CardSanityOption.option_true:
-                writes += self.cardWrites([cardsanitycards], forty_in_shop != 0x40, False)
+                writes += self.cardWrites([cardsanitycards], forty_in_shop != 0x40, False, self.card_bulk_to_send)
             # Instant Cards OFF, CardSanity OFF
             elif redEyesNumber == 0x0A:
-                writes += self.cardWrites([], True, ctx.slot_data["dorothy"] == DorothyLogicOption.option_off)
+                writes += self.cardWrites([], True, ctx.slot_data["dorothy"] == DorothyLogicOption.option_off,
+                                          self.card_bulk_to_send)
 
             # Add DP from items
             if dp_count > shepard_wins and dp_count > self.local_dp_count:
                 new_dp = duelPoints + (1000 * (dp_count - shepard_wins))
                 self.local_dp_count = dp_count
-                writes.append((0x3848, new_dp.to_bytes(2, "little"), self.combined_wram))
+                writes.append((0x3848, new_dp.to_bytes(4, "little"), self.combined_wram))
 
             # Unlocked packed as saved across 6 bytes
             unlockedPacks = [0, 0, 0, 0, 0, 0]
@@ -339,11 +344,11 @@ class YuGiOhGXClient(BizHawkClient):
                 # if the card has a special modifier. Also, additional check for location, 40 being shop.
                 shop_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(0x2B130, 1, self.combined_wram)])
 
-
                 selection_state = int.from_bytes(shop_bytes[0], byteorder="little")
 
                 test = ctx.checked_locations
-                if (selection_state == 0x16 or selection_state == 0x13 or selection_state == 0x17) and forty_in_shop == 0x40:
+                if (
+                        selection_state == 0x16 or selection_state == 0x13 or selection_state == 0x17) and forty_in_shop == 0x40:
                     cards_in_pack = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 
                     # Loop while the 10th read card is not empty, or is the first run through.
@@ -352,7 +357,8 @@ class YuGiOhGXClient(BizHawkClient):
                         pack_read_tuples = []
 
                         for x in range(1200):
-                            pack_read_tuples.append((pack_location + (4 * x), 2, self.combined_wram))
+                            if (self.card_bulk_to_send * 400) < x < ((self.card_bulk_to_send + 1) * 400):
+                                pack_read_tuples.append((pack_location + (4 * x), 2, self.combined_wram))
 
                         pack_bytes = await bizhawk.read(ctx.bizhawk_ctx, pack_read_tuples)
 
@@ -371,11 +377,14 @@ class YuGiOhGXClient(BizHawkClient):
                             }])
                         pack_location += 40
 
+            # batches the cards into 3 batches
+            self.card_bulk_to_send = (self.card_bulk_to_send + 1) % 3
+
         except bizhawk.RequestFailedError:
             # Exit handler and return to main loop to reconnect
             pass
 
-    def cardWrites(self, packsFromItems, includeStarter, includeEHSFW):
+    def cardWrites(self, packsFromItems, includeStarter, includeEHSFW, bulkStage):
         out = []
         cardlist = []
         if includeStarter:
@@ -385,9 +394,10 @@ class YuGiOhGXClient(BizHawkClient):
         for pack in packsFromItems:
             cardlist.extend(pack)
         for x in range(1200):
-            val = 0x0
-            if (x + 1) in cardlist:
-                val = 0x1A
-            cardTuple = (0x4 + (x * 12), val.to_bytes(1, "little"), self.combined_wram)
-            out.append(cardTuple)
+            if bulkStage * 400 < x < (bulkStage + 1) * 400:
+                val = 0x0
+                if (x + 1) in cardlist:
+                    val = 0x1A
+                cardTuple = (0x4 + (x * 12), val.to_bytes(1, "little"), self.combined_wram)
+                out.append(cardTuple)
         return out
