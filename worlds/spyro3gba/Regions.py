@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Region, Entrance
 from .Locations import location_table, Spyro3GBALocation
-from .Constants import Hubs, baseid
+from .Constants import Hubs, baseid, Regions, Subregions
 
 
 def create_regions(world: "Spyro3GBAWorld"):
@@ -13,9 +13,44 @@ def create_regions(world: "Spyro3GBAWorld"):
     menu = Region("Menu", player, multiworld)
     victory = Region("Victory", player, multiworld)
 
-    ds = Region(Hubs.DS.value, player, multiworld)
-    fl = Region(Hubs.FL.value, player, multiworld)
+    # Dragon Shores
+    ds4 = Region(Regions.DS4.value, player, multiworld)
+    ds4Free = Region(Subregions.DS4Free.value, player, multiworld)
+    ds4Quest = Region(Subregions.DS4Quest.value, player, multiworld)
+
+    ds6 = Region(Regions.DS6.value, player, multiworld)
+    ds6Free = Region(Subregions.DS6Free.value, player, multiworld)
+
+    ds8 = Region(Regions.DS8.value, player, multiworld)
+    ds8Free = Region(Subregions.DS8Free.value, player, multiworld)
+    ds8Green = Region(Subregions.DS8Green.value, player, multiworld)
+
+    ds9 = Region(Regions.DS9.value, player, multiworld)
+    ds9Free = Region(Subregions.DS9Free.value, player, multiworld)
+
+    ds12 = Region(Regions.DS12.value, player, multiworld)
+    ds12Boss = Region(Subregions.DS12Boss.value, player, multiworld)
+
+    # Fairy Library
+    fl14 = Region(Regions.FL14.value, player, multiworld)
+    fl14Free = Region(Subregions.FL14Free.value, player, multiworld)
+
+    fl15 = Region(Regions.FL15.value, player, multiworld)
+    fl15Books = Region(Subregions.FL15Books.value, player, multiworld)
+    fl15Quest = Region(Subregions.FL15Quest.value, player, multiworld)
+    fl15Red = Region(Subregions.FL15Red.value, player, multiworld)
+    fl15Green = Region(Subregions.FL15Green.value, player, multiworld)
+    fl15Purple = Region(Subregions.FL15Purple.value, player, multiworld)
+
+    fl16 = Region(Regions.FL16.value, player, multiworld)
+    fl16Boss = Region(Subregions.FL16Boss.value, player, multiworld)
+
+    fl18 = Region(Regions.FL18.value, player, multiworld)
+    fl18Free = Region(Subregions.FL18Free.value, player, multiworld)
+
+    # Yeti Serengeti
     ys = Region(Hubs.YS.value, player, multiworld)
+
     bb = Region(Hubs.BB.value, player, multiworld)
     tg = Region(Hubs.TG.value, player, multiworld)
     rh = Region(Hubs.RH.value, player, multiworld)
@@ -27,8 +62,25 @@ def create_regions(world: "Spyro3GBAWorld"):
     rc = Region(Hubs.RC.value, player, multiworld)
     cr = Region(Hubs.CR.value, player, multiworld)
 
-    ds.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds) for loc_name in get_array([0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A])]
-    fl.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl) for loc_name in get_array([0x4B,0x4C,0x4D,0x4E,0x4F,0x50,0x51,0x52])]
+
+    # Locations
+    ds4Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds4Free) for loc_name in get_array([0x46,0x4A])]
+    ds4Quest.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds4Quest) for loc_name in get_array([0x45])]
+    ds6Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds6Free) for loc_name in get_array([0x43])]
+    ds8Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds8Free) for loc_name in get_array([0x49])]
+    ds8Green.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds8Green) for loc_name in get_array([0x44])]
+    ds9Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds9Free) for loc_name in get_array([0x48])]
+    ds12Boss.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ds12Boss) for loc_name in get_array([0x47])]
+
+    fl14Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl14Free) for loc_name in get_array([0x4D])]
+    fl15Books.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl15Books) for loc_name in get_array([0x4F])]
+    fl15Quest.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl15Quest) for loc_name in get_array([0x4E])]
+    fl15Red.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl15Red) for loc_name in get_array([0x52])]
+    fl15Green.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl15Green) for loc_name in get_array([0x4B])]
+    fl15Purple.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl15Purple) for loc_name in get_array([0x4C])]
+    fl16Boss.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl16Boss) for loc_name in get_array([0x51])]
+    fl18Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], fl18Free) for loc_name in get_array([0x50])]
+
     ys.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], ys) for loc_name in get_array([0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A])]
     bb.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bb) for loc_name in get_array([0x5B,0x5C,0x5D,0x5E,0x5F,0x60,0x61,0x62])]
     tg.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], tg) for loc_name in get_array([0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6A])]
@@ -45,7 +97,11 @@ def create_regions(world: "Spyro3GBAWorld"):
     victory.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], victory) for loc_name in
                           get_array([0])]
 
-    regions = [menu, ds, fl, ys, bb, tg, rh, bs, kh, mm, cs, pl, rc, cr, victory]
+    regions = [menu, victory]
+    regions += [ds4, ds4Free, ds4Quest, ds6, ds6Free, ds8, ds8Free, ds8Green, ds9, ds9Free, ds12, ds12Boss]
+    regions += [fl14, fl14Free, fl15, fl15Books, fl15Quest, fl15Red, fl15Green, fl15Purple, fl16, fl16Boss, fl18, fl18Free]
+
+    regions += [ys, bb, tg, rh, bs, kh, mm, cs, pl , rc, cr]
 
     multiworld.regions.extend(regions)
 
