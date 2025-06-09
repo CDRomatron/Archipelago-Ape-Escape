@@ -18,10 +18,10 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS4.value, Regions.DS6.value, lambda state: has_escape(state, world))
 
     connect_regions(world, Regions.DS6.value, Subregions.DS6Free.value, lambda state: True)
-    connect_regions(world, Regions.DS6.value, Hubs.YS.value, lambda state: True)
-    connect_regions(world, Regions.DS6.value, Hubs.BB.value, lambda state: True)
-    connect_regions(world, Regions.DS6.value, Hubs.TG.value, lambda state: has_lamp(state, world))
-    connect_regions(world, Regions.DS6.value, Hubs.RH.value, lambda state: has_lamp(state, world))
+    connect_regions(world, Regions.DS6.value, Regions.YS19.value, lambda state: has_ice_1(state, world))
+    connect_regions(world, Regions.DS6.value, Regions.BB30.value, lambda state: has_ice_1(state, world))
+    connect_regions(world, Regions.DS6.value, Regions.TG35.value, lambda state: has_lamp(state, world))
+    connect_regions(world, Regions.DS6.value, Regions.RH42.value, lambda state: has_lamp(state, world))
     connect_regions(world, Regions.DS6.value, Regions.DS12.value, lambda state: has_fire_2(state, world) and has_wind_2(state, world))
 
     connect_regions(world, Regions.DS12.value, Subregions.DS12Boss.value, lambda state: True)
@@ -35,7 +35,6 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS8.value, Regions.DS9.value, lambda state: has_lamp(state, world))
 
     connect_regions(world, Regions.DS9.value, Subregions.DS9Free.value, lambda state: True)
-
 
     # Fairy Library
 
@@ -55,6 +54,61 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.FL16.value, Subregions.FL16Boss.value, lambda state: True)
 
     # Yeti Serengeti
+
+    connect_regions(world, Regions.YS19.value, Subregions.YS19Free.value, lambda state: True)
+    connect_regions(world, Regions.YS19.value, Regions.YS20.value, lambda state: has_lamp(state, world))
+
+    connect_regions(world, Regions.YS20.value, Subregions.YS20Free.value, lambda state: True)
+    connect_regions(world, Regions.YS20.value, Subregions.YS20Quest.value, lambda state: has_ys_quest(state, world))
+    connect_regions(world, Regions.YS20.value, Subregions.YS20Red.value, lambda state: has_red(state, world))
+    connect_regions(world, Regions.YS20.value, Subregions.YS20Purple.value, lambda state: has_purple(state, world))
+    connect_regions(world, Regions.YS20.value, Regions.YS27.value, lambda state: True)
+    connect_regions(world, Regions.YS20.value, Regions.YS29.value, lambda state: True)
+
+    connect_regions(world, Regions.YS27.value, Subregions.YS27Free.value, lambda state: True)
+
+    connect_regions(world, Regions.YS29.value, Subregions.YS29Free.value, lambda state: True)
+
+
+    # Byrd Barracks
+
+    connect_regions(world, Regions.BB30.value, Subregions.BB30Free.value, lambda state: True)
+    connect_regions(world, Regions.BB30.value, Regions.BB31.value, lambda state: has_ice_2(state, world))
+
+    connect_regions(world, Regions.BB31.value, Subregions.BB31Free.value, lambda state: True)
+    connect_regions(world, Regions.BB31.value, Subregions.BB31Red.value, lambda state: has_red(state, world))
+    connect_regions(world, Regions.BB31.value, Subregions.BB31Quest.value, lambda state: has_bb_quest(state, world))
+    connect_regions(world, Regions.BB31.value, Regions.BB33.value, lambda state: True)
+
+    connect_regions(world, Regions.BB33.value, Subregions.BB33Free.value, lambda state: True)
+
+    # Thieves' Guild
+
+    connect_regions(world, Regions.TG35.value, Subregions.TG35Free.value, lambda state: True)
+    connect_regions(world, Regions.TG35.value, Regions.TG36.value, lambda state: True)
+
+    connect_regions(world, Regions.TG36.value, Subregions.TG36Free.value, lambda state: True)
+    connect_regions(world, Regions.TG36.value, Subregions.TG36Quest.value, lambda state: has_tg_quest(state, world))
+    connect_regions(world, Regions.TG36.value, Subregions.TG36Purple.value, lambda state: has_purple(state, world))
+    connect_regions(world, Regions.TG36.value, Regions.TG37.value, lambda state: True)
+    connect_regions(world, Regions.TG36.value, Regions.TG39.value, lambda state: True)
+
+    connect_regions(world, Regions.TG37.value, Subregions.TG37Free.value, lambda state: True)
+
+    connect_regions(world, Regions.TG39.value, Subregions.TG39Free.value, lambda state: True)
+
+    # Rabbit Habitat
+
+    connect_regions(world, Regions.RH42.value, Subregions.RH42Free.value, lambda state: True)
+    connect_regions(world, Regions.RH42.value, Subregions.RH42Quest.value, lambda state: has_wind_2(state, world) and has_rh_quest(state, world))
+    connect_regions(world, Regions.RH42.value, Subregions.RH42Red.value, lambda state: has_wind_2(state, world) and has_red(state, world))
+    connect_regions(world, Regions.RH42.value, Subregions.RH42Purple.value, lambda state: has_purple(state, world))
+    connect_regions(world, Regions.RH42.value, Subregions.RH42Yellow.value, lambda state: has_wind_2(state, world) and has_yellow(state, world))
+    connect_regions(world, Regions.RH42.value, Regions.RH44.value, lambda state: has_wind_2(state, world))
+
+    connect_regions(world, Regions.RH44.value, Subregions.RH44Free.value, lambda state: True)
+
+    # Banana Savannah
 
     connect_regions(world, Hubs.PL.value, Hubs.RC.value, lambda state: state.has(Items.MiniDynamo.value, world.player, 1))
     connect_regions(world, Hubs.RC.value, Hubs.CR.value, lambda state: state.has(Items.MiniDynamo.value, world.player, 1) and state.has(Items.KangarooCarving.value, world.player, 1))
@@ -107,4 +161,15 @@ def has_ds_quest(state, world):
 def has_fl_quest(state, world):
     return state.has(Items.ExtensoGripAttachment.value, world.player, 1) and state.has(Items.BookBGoneStorageUnit.value, world.player, 1) and state.has(Items.NoSneezeDustingArmature.value, world.player, 1) and state.has(Items.EyeSpyBindingScanner.value, world.player, 1) and state.has(Items.QuickNQuietMotivatorUnit.value, world.player, 1) and state.has(Items.SupRSmartSortingModule.value, world.player, 1) and state.has(Items.DustyUserManual.value, world.player, 1)
 
+def has_ys_quest(state, world):
+    return state.has(Items.YetiHairClimbingRope.value, world.player, 1) and state.has(Items.LuckyClimbingHat.value, world.player, 1) and state.has(Items.BigLeftClimbingShoe.value, world.player, 1) and state.has(Items.AnotherLeftClimbingShoe.value, world.player, 1) and state.has(Items.HugeLeftClimbingGlove.value, world.player, 1) and state.has(Items.HugeRightClimbingGlove.value, world.player, 1) and state.has(Items.EnormousMountaineersAxe.value, world.player, 1)
+
+def has_bb_quest(state, world):
+    return state.has(Items.MedalOfLiberation.value, world.player, 1) and state.has(Items.TheArcticCross.value, world.player, 1) and state.has(Items.HerosHeartMedal.value, world.player, 1) and state.has(Items.MedalOfHonor.value, world.player, 1) and state.has(Items.VictoryMedal.value, world.player, 1) and state.has(Items.MilitaryCross.value, world.player, 1) and state.has(Items.TheOrderOfMerit.value, world.player, 1)
+
+def has_tg_quest(state, world):
+    return state.has(Items.MastersStethoscope.value, world.player, 1) and state.has(Items.MastersNailFile.value, world.player, 1) and state.has(Items.MastersHandDrill.value, world.player, 1) and state.has(Items.MastersCrowbar.value, world.player, 1) and state.has(Items.MastersSledgehammer.value, world.player, 1) and state.has(Items.MastersFuse.value, world.player, 1) and state.has(Items.MastersExplosives.value, world.player, 1)
+
+def has_rh_quest(state, world):
+    return state.has(Items.DragonStar.value, world.player, 1) and state.has(Items.YetiLettuce.value, world.player, 1) and state.has(Items.SnowLily.value, world.player, 1) and state.has(Items.ApeGrapes.value, world.player, 1) and state.has(Items.RoosRose.value, world.player, 1) and state.has(Items.MoneyTree.value, world.player, 1) and state.has(Items.SunspotBloom.value, world.player, 1)
 
