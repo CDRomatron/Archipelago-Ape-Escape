@@ -107,10 +107,64 @@ def create_regions(world: "Spyro3GBAWorld"):
 
     # Banana Savannah
 
-    bs = Region(Hubs.BS.value, player, multiworld)
-    kh = Region(Hubs.KH.value, player, multiworld)
-    mm = Region(Hubs.MM.value, player, multiworld)
-    cs = Region(Hubs.CS.value, player, multiworld)
+    bs46 = Region(Regions.BS46.value, player, multiworld)
+    bs46Free = Region(Subregions.BS46Free.value, player, multiworld)
+
+    bs47 = Region(Regions.BS47.value, player, multiworld)
+    bs47Free = Region(Subregions.BS47Free.value, player, multiworld)
+    bs47Quest = Region(Subregions.BS47Quest.value, player, multiworld)
+    bs47Red = Region(Subregions.BS47Red.value, player, multiworld)
+    bs47Green = Region(Subregions.BS47Green.value, player, multiworld)
+    bs47Target = Region(Subregions.BS47Targets.value, player, multiworld)
+
+    bs50 = Region(Regions.BS50.value, player, multiworld)
+    bs50Free = Region(Subregions.BS50Free.value, player, multiworld)
+
+    # Kangaroo Hoodoos
+
+    kh51 = Region(Regions.KH51.value, player, multiworld)
+    kh51Free = Region(Subregions.KH51Free.value, player, multiworld)
+
+    kh52 = Region(Regions.KH52.value, player, multiworld)
+    kh52Red = Region(Subregions.KH52Red.value, player, multiworld)
+    kh52Kangaroo = Region(Subregions.KH52Kangaroo.value, player, multiworld)
+    kh52Quest = Region(Subregions.KH52Quest.value, player, multiworld)
+
+    kh53 = Region(Regions.KH53.value, player, multiworld)
+    kh53Green = Region(Subregions.KH53Green.value, player, multiworld)
+
+    kh56 = Region(Regions.KH56.value, player, multiworld)
+    kh56Free = Region(Subregions.KH56Free.value, player, multiworld)
+
+    # Moneybags Mansion
+
+    mm57 = Region(Regions.MM57.value, player, multiworld)
+    mm57Free = Region(Subregions.MM57Free.value, player, multiworld)
+
+    mm59 = Region(Regions.MM59.value, player, multiworld)
+    mm59Wind = Region(Subregions.MM59Wind.value, player, multiworld)
+    mm59WindGreen = Region(Subregions.MM59WindGreen.value, player, multiworld)
+    mm59Purple = Region(Subregions.MM59Purple.value, player, multiworld)
+
+    mm60 = Region(Regions.MM60.value, player, multiworld)
+    mm60Generator = Region(Subregions.MM60Generator.value, player, multiworld)
+
+    mm61 = Region(Regions.MM61.value, player, multiworld)
+    mm61Free = Region(Subregions.MM61Free.value, player, multiworld)
+
+    # Cheetah Spot Spa
+
+    cs63 = Region(Regions.CS63.value, player, multiworld)
+    cs63Free = Region(Subregions.CS63Free.value, player, multiworld)
+
+    cs64 = Region(Regions.CS64.value, player, multiworld)
+    cs64Free = Region(Subregions.CS64Free.value, player, multiworld)
+    cs64Quest = Region(Subregions.CS64Quest.value, player, multiworld)
+    cs64Green = Region(Subregions.CS64Green.value, player, multiworld)
+    cs64Yellow = Region(Subregions.CS64Yellow.value, player, multiworld)
+    cs64Wind = Region(Subregions.CS64Wind.value, player, multiworld)
+
+    # Professor's Secret Lab
     pl = Region(Hubs.PL.value, player, multiworld)
     rc = Region(Hubs.RC.value, player, multiworld)
     cr = Region(Hubs.CR.value, player, multiworld)
@@ -161,10 +215,35 @@ def create_regions(world: "Spyro3GBAWorld"):
     rh42Yellow.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], rh42Yellow) for loc_name in get_array([0x72])]
     rh44Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], rh44Free) for loc_name in get_array([0x6E])]
 
-    bs.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs) for loc_name in get_array([0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7A])]
-    kh.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], kh) for loc_name in get_array([0x7B,0x7C,0x7D,0x7E,0x7F,0x80,0x81,0x82])]
-    mm.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], mm) for loc_name in get_array([0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8A])]
-    cs.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cs) for loc_name in get_array([0x8B,0x8C,0x8D,0x8E,0x8F,0x90,0x91,0x92])]
+    bs46Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs46Free) for loc_name in get_array([0x75])]
+    bs47Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs47Free) for loc_name in get_array([0x74,0x7A])]
+    bs47Quest.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs47Quest) for loc_name in get_array([0x76])]
+    bs47Red.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs47Red) for loc_name in get_array([0x79])]
+    bs47Green.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs47Green) for loc_name in get_array([0x73])]
+    bs47Target.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs47Target) for loc_name in get_array([0x77])]
+    bs50Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], bs50Free) for loc_name in get_array([0x78])]
+
+    kh51Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], kh51Free) for loc_name in get_array([0x7D])]
+    kh52Red.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], kh52Red) for loc_name in get_array([0x82])]
+    kh52Quest.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], kh52Quest) for loc_name in get_array([0x7E])]
+    kh52Kangaroo.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], kh52Kangaroo) for loc_name in get_array([0x7C,0x7F,0x80])]
+    kh53Green.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], kh53Green) for loc_name in get_array([0x7B])]
+    kh56Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], kh56Free) for loc_name in get_array([0x81])]
+
+    mm57Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], mm57Free) for loc_name in get_array([0x85,0x86])]
+    mm59Wind.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], mm59Wind) for loc_name in get_array([0x83,0x8A])]
+    mm59WindGreen.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], mm59WindGreen) for loc_name in get_array([0x89])]
+    mm59Purple.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], mm59Purple) for loc_name in get_array([0x84])]
+    mm60Generator.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], mm60Generator) for loc_name in get_array([0x87])]
+    mm61Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], mm61Free) for loc_name in get_array([0x88])]
+
+    cs63Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cs63Free) for loc_name in get_array([0x8D])]
+    cs64Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cs64Free) for loc_name in get_array([0x8C,0x90,0x92])]
+    cs64Quest.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cs64Quest) for loc_name in get_array([0x8E])]
+    cs64Green.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cs64Green) for loc_name in get_array([0x8B])]
+    cs64Yellow.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cs64Yellow) for loc_name in get_array([0x91])]
+    cs64Wind.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cs64Wind) for loc_name in get_array([0x8F])]
+
     pl.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], pl) for loc_name in get_array([0x93,0x94,0x95,0x96,0x97,0x98,0x99,0x9A])]
     rc.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], rc) for loc_name in get_array([0x9B,0x9C,0x9D,0x9E,0x9F,0xA0])]
     cr.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cr) for loc_name in get_array([0xA1,0xA2,0xA3,0xA4,0xA5,0xA6])]
@@ -180,8 +259,12 @@ def create_regions(world: "Spyro3GBAWorld"):
     regions += [bb30, bb30Free, bb31, bb31Free, bb31Red, bb31Quest, bb33, bb33Free]
     regions += [tg35, tg35Free, tg36, tg36Free, tg36Quest, tg36Purple, tg37, tg37Free, tg39, tg39Free]
     regions += [rh42, rh42Free, rh42Quest, rh42Red, rh42Purple, rh42Yellow, rh44, rh44Free]
+    regions += [bs46, bs46Free, bs47, bs47Free, bs47Quest, bs47Red, bs47Green, bs47Target, bs50, bs50Free]
+    regions += [kh51, kh51Free, kh52, kh52Red, kh52Quest, kh52Kangaroo, kh53, kh53Green, kh56, kh56Free]
+    regions += [mm57, mm57Free, mm59, mm59Wind, mm59WindGreen, mm59Purple, mm60, mm60Generator, mm61, mm61Free]
+    regions += [cs63, cs63Free, cs64, cs64Free, cs64Quest, cs64Green, cs64Yellow, cs64Wind]
 
-    regions += [bs, kh, mm, cs, pl, rc, cr]
+    regions += [pl, rc, cr]
 
     multiworld.regions.extend(regions)
 

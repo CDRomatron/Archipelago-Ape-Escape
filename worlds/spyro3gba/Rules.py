@@ -13,7 +13,7 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS4.value, Subregions.DS4Free.value, lambda state: True)
     connect_regions(world, Regions.DS4.value, Subregions.DS4Quest.value, lambda state: has_ds_quest(state, world))
     connect_regions(world, Regions.DS4.value, Regions.FL14.value, lambda state: True)
-    connect_regions(world, Regions.DS4.value, Hubs.BS.value, lambda state: has_ice_2(state, world))
+    connect_regions(world, Regions.DS4.value, Regions.BS46.value, lambda state: has_ice_2(state, world))
     connect_regions(world, Regions.DS4.value, Hubs.PL.value, lambda state: has_wind_3(state, world))
     connect_regions(world, Regions.DS4.value, Regions.DS6.value, lambda state: has_escape(state, world))
 
@@ -22,16 +22,16 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS6.value, Regions.BB30.value, lambda state: has_ice_1(state, world))
     connect_regions(world, Regions.DS6.value, Regions.TG35.value, lambda state: has_lamp(state, world))
     connect_regions(world, Regions.DS6.value, Regions.RH42.value, lambda state: has_lamp(state, world))
-    connect_regions(world, Regions.DS6.value, Regions.DS12.value, lambda state: has_fire_2(state, world) and has_wind_2(state, world))
+    connect_regions(world, Regions.DS6.value, Regions.DS12.value, lambda state: has_fire_2(state, world) and has_wind_2(state, world) and has_lamp(state, world))
 
     connect_regions(world, Regions.DS12.value, Subregions.DS12Boss.value, lambda state: True)
     connect_regions(world, Regions.DS12.value, Regions.DS8.value, lambda state: True)
 
     connect_regions(world, Regions.DS8.value, Subregions.DS8Free.value, lambda state: True)
     connect_regions(world, Regions.DS8.value, Subregions.DS8Green.value, lambda state: has_green(state, world))
-    connect_regions(world, Regions.DS8.value, Hubs.KH.value, lambda state: has_fire_2(state, world) and has_ice_2(state, world))
-    connect_regions(world, Regions.DS8.value, Hubs.MM.value, lambda state: True)
-    connect_regions(world, Regions.DS8.value, Hubs.CS.value, lambda state: has_wind_3(state, world))
+    connect_regions(world, Regions.DS8.value, Regions.KH51.value, lambda state: has_fire_2(state, world) and has_ice_2(state, world))
+    connect_regions(world, Regions.DS8.value, Regions.MM57.value, lambda state: True)
+    connect_regions(world, Regions.DS8.value, Regions.CS63.value, lambda state: has_wind_3(state, world))
     connect_regions(world, Regions.DS8.value, Regions.DS9.value, lambda state: has_lamp(state, world))
 
     connect_regions(world, Regions.DS9.value, Subregions.DS9Free.value, lambda state: True)
@@ -68,7 +68,6 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.YS27.value, Subregions.YS27Free.value, lambda state: True)
 
     connect_regions(world, Regions.YS29.value, Subregions.YS29Free.value, lambda state: True)
-
 
     # Byrd Barracks
 
@@ -110,6 +109,61 @@ def set_rules(world: "Spyro3GBAWorld"):
 
     # Banana Savannah
 
+    connect_regions(world, Regions.BS46.value, Subregions.BS46Free.value, lambda state: True)
+    connect_regions(world, Regions.BS46.value, Regions.BS47.value, lambda state: True)
+
+    connect_regions(world, Regions.BS47.value, Subregions.BS47Free.value, lambda state: True)
+    connect_regions(world, Regions.BS47.value, Subregions.BS47Quest.value, lambda state: has_bs_quest(state, world))
+    connect_regions(world, Regions.BS47.value, Subregions.BS47Red.value, lambda state: has_red(state, world))
+    connect_regions(world, Regions.BS47.value, Subregions.BS47Green.value, lambda state: has_green(state, world))
+    connect_regions(world, Regions.BS47.value, Subregions.BS47Targets.value, lambda state: has_fire_2(state, world))
+    connect_regions(world, Regions.BS47.value, Regions.BS50.value, lambda state: has_fire_2(state, world))
+
+    connect_regions(world, Regions.BS50.value, Subregions.BS50Free.value, lambda state: True)
+
+    # Kangaroo Hoodoos
+
+    connect_regions(world, Regions.KH51.value, Subregions.KH51Free.value, lambda state: True)
+    connect_regions(world, Regions.KH51.value, Regions.KH52.value, lambda state: True)
+
+    connect_regions(world, Regions.KH52.value, Subregions.KH52Red.value, lambda state: has_red(state, world))
+    connect_regions(world, Regions.KH52.value, Subregions.KH52Kangaroo.value, lambda state: has_slam(state, world))
+    connect_regions(world, Regions.KH52.value, Subregions.KH52Quest.value, lambda state: has_kh_quest(state, world))
+    connect_regions(world, Regions.KH52.value, Regions.KH53.value, lambda state: has_lamp(state, world))
+    connect_regions(world, Regions.KH52.value, Regions.KH56.value, lambda state: True)
+
+    connect_regions(world, Regions.KH53.value, Subregions.KH53Green.value, lambda state: has_green(state, world))
+
+    connect_regions(world, Regions.KH56.value, Subregions.KH56Free.value, lambda state: True)
+
+    # Moneybags Mansion
+
+    connect_regions(world, Regions.MM57.value, Subregions.MM57Free.value, lambda state: True)
+    connect_regions(world, Regions.MM57.value, Regions.MM59.value, lambda state: True)
+    connect_regions(world, Regions.MM57.value, Regions.MM60.value, lambda state: True)
+
+    connect_regions(world, Regions.MM59.value, Subregions.MM59Wind.value, lambda state: has_wind_x(state, world))
+    connect_regions(world, Regions.MM59.value, Subregions.MM59WindGreen.value, lambda state: has_wind_x(state, world) and has_green(state, world))
+    connect_regions(world, Regions.MM59.value, Subregions.MM59Purple.value, lambda state: has_purple(state, world))
+    connect_regions(world, Regions.MM59.value, Regions.MM61.value, lambda state: has_wind_x(state, world))
+
+    connect_regions(world, Regions.MM60.value, Subregions.MM60Generator.value, lambda state: has_wind_3(state, world))
+
+    connect_regions(world, Regions.MM61.value, Subregions.MM61Free.value, lambda state: True)
+
+    # Cheetah Spot Spa
+
+    connect_regions(world, Regions.CS63.value, Subregions.CS63Free.value, lambda state: True)
+    connect_regions(world, Regions.CS63.value, Regions.CS64.value, lambda state: True)
+
+    connect_regions(world, Regions.CS64.value, Subregions.CS64Free.value, lambda state: True)
+    connect_regions(world, Regions.CS64.value, Subregions.CS64Quest.value, lambda state: has_cs_quest(state, world))
+    connect_regions(world, Regions.CS64.value, Subregions.CS64Green.value, lambda state: has_green(state, world))
+    connect_regions(world, Regions.CS64.value, Subregions.CS64Yellow.value, lambda state: has_yellow(state, world))
+    connect_regions(world, Regions.CS64.value, Subregions.CS64Wind.value, lambda state: has_wind_3(state, world))
+
+    # Professor's Secret Lab
+
     connect_regions(world, Hubs.PL.value, Hubs.RC.value, lambda state: state.has(Items.MiniDynamo.value, world.player, 1))
     connect_regions(world, Hubs.RC.value, Hubs.CR.value, lambda state: state.has(Items.MiniDynamo.value, world.player, 1) and state.has(Items.KangarooCarving.value, world.player, 1))
     connect_regions(world, Hubs.CR.value, "Victory", lambda state:  state.has(Items.HotBananaPepper.value, world.player, 1) and state.has(Items.IceFairyScroll.value, world.player, 1) and state.has(Items.SuperBreathMint.value, world.player, 1) and state.has(Items.MiniDynamo.value, world.player, 1))
@@ -130,6 +184,9 @@ def has_wind_2(state, world):
 
 def has_wind_3(state, world):
     return has_wind_2(state, world) and state.has(Items.MiniDynamo.value, world.player, 1)
+
+def has_wind_x(state, world):
+    return has_wind_2(state, world) or state.has(Items.MiniDynamo.value, world.player, 1)
 
 def has_all_breath(state, world):
     return has_ice_2(state, world) and has_fire_2(state, world) and has_wind_2(state, world)
@@ -173,3 +230,11 @@ def has_tg_quest(state, world):
 def has_rh_quest(state, world):
     return state.has(Items.DragonStar.value, world.player, 1) and state.has(Items.YetiLettuce.value, world.player, 1) and state.has(Items.SnowLily.value, world.player, 1) and state.has(Items.ApeGrapes.value, world.player, 1) and state.has(Items.RoosRose.value, world.player, 1) and state.has(Items.MoneyTree.value, world.player, 1) and state.has(Items.SunspotBloom.value, world.player, 1)
 
+def has_bs_quest(state, world):
+    return state.has(Items.BananaRipeningAgent.value, world.player, 1) and state.has(Items.MagicBananaDust.value, world.player, 1) and state.has(Items.FlavorBooster.value, world.player, 1) and state.has(Items.SoilStabilizer.value, world.player, 1) and state.has(Items.PeelStrengthener.value, world.player, 1) and state.has(Items.BananaGroGrowth.value, world.player, 1) and state.has(Items.YellowDye5.value, world.player, 1)
+
+def has_kh_quest(state, world):
+    return state.has(Items.TheRooZettaStone.value, world.player, 1) and state.has(Items.KangarooHistory.value, world.player, 1) and state.has(Items.TheRooJewel.value, world.player, 1) and state.has(Items.Digeridoodle.value, world.player, 1) and state.has(Items.AncientTravelBrochure.value, world.player, 1) and state.has(Items.CeremonialBoomerang.value, world.player, 1) and state.has(Items.RooPottery.value, world.player, 1)
+
+def has_cs_quest(state, world):
+    return state.has(Items.HypnoticLightOrgan.value, world.player, 1) and state.has(Items.TotallyRetroUniform.value, world.player, 1) and state.has(Items.HipNeonTrophy.value, world.player, 1) and state.has(Items.WayCoolLavaLamp.value, world.player, 1) and state.has(Items.GroovyPainting.value, world.player, 1) and state.has(Items.WildSnowboard.value, world.player, 1) and state.has(Items.AwesomeDragonflyWing.value, world.player, 1)
