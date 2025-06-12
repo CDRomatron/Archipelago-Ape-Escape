@@ -14,7 +14,7 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS4.value, Subregions.DS4Quest.value, lambda state: has_ds_quest(state, world))
     connect_regions(world, Regions.DS4.value, Regions.FL14.value, lambda state: True)
     connect_regions(world, Regions.DS4.value, Regions.BS46.value, lambda state: has_ice_2(state, world))
-    connect_regions(world, Regions.DS4.value, Hubs.PL.value, lambda state: has_wind_3(state, world))
+    connect_regions(world, Regions.DS4.value, Regions.PL68.value, lambda state: has_elec(state, world))
     connect_regions(world, Regions.DS4.value, Regions.DS6.value, lambda state: has_escape(state, world))
 
     connect_regions(world, Regions.DS6.value, Subregions.DS6Free.value, lambda state: True)
@@ -31,7 +31,7 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS8.value, Subregions.DS8Green.value, lambda state: has_green(state, world))
     connect_regions(world, Regions.DS8.value, Regions.KH51.value, lambda state: has_fire_2(state, world) and has_ice_2(state, world))
     connect_regions(world, Regions.DS8.value, Regions.MM57.value, lambda state: True)
-    connect_regions(world, Regions.DS8.value, Regions.CS63.value, lambda state: has_wind_3(state, world))
+    connect_regions(world, Regions.DS8.value, Regions.CS63.value, lambda state: has_elec(state, world))
     connect_regions(world, Regions.DS8.value, Regions.DS9.value, lambda state: has_lamp(state, world))
 
     connect_regions(world, Regions.DS9.value, Subregions.DS9Free.value, lambda state: True)
@@ -164,9 +164,39 @@ def set_rules(world: "Spyro3GBAWorld"):
 
     # Professor's Secret Lab
 
-    connect_regions(world, Hubs.PL.value, Hubs.RC.value, lambda state: state.has(Items.MiniDynamo.value, world.player, 1))
-    connect_regions(world, Hubs.RC.value, Hubs.CR.value, lambda state: state.has(Items.MiniDynamo.value, world.player, 1) and state.has(Items.KangarooCarving.value, world.player, 1))
-    connect_regions(world, Hubs.CR.value, "Victory", lambda state:  state.has(Items.HotBananaPepper.value, world.player, 1) and state.has(Items.IceFairyScroll.value, world.player, 1) and state.has(Items.SuperBreathMint.value, world.player, 1) and state.has(Items.MiniDynamo.value, world.player, 1))
+    connect_regions(world, Regions.PL68.value, Subregions.PL68Red.value, lambda state: has_red(state, world))
+    connect_regions(world, Regions.PL68.value, Subregions.PL68Purple.value, lambda state: has_purple(state, world))
+    connect_regions(world, Regions.PL68.value, Regions.PL3.value, lambda state: True)
+    connect_regions(world, Regions.PL68.value, Regions.PL69.value, lambda state: True)
+    connect_regions(world, Regions.PL68.value, Regions.RC72.value, lambda state: True)
+
+    connect_regions(world, Regions.PL3.value, Subregions.PL3Ice.value, lambda state: has_ice_1(state, world))
+    connect_regions(world, Regions.PL3.value, Subregions.PL3IceGreen.value, lambda state: has_ice_1(state, world) and has_green(state, world))
+    connect_regions(world, Regions.PL3.value, Subregions.PL3IcePurple.value, lambda state: has_ice_1(state, world) and has_purple(state, world))
+    connect_regions(world, Regions.PL3.value, Subregions.PL3IceYellow.value, lambda state: has_ice_1(state, world) and has_yellow(state, world))
+
+    connect_regions(world, Regions.PL69.value, Subregions.PL69Free.value, lambda state: True)
+
+    # Rhynocs n' Clocks
+
+    connect_regions(world, Regions.RC72.value, Subregions.RC72Free.value, lambda state: True)
+    connect_regions(world, Regions.RC72.value, Regions.RC73.value, lambda state: True)
+
+    connect_regions(world, Regions.RC73.value, Subregions.RC73Free.value, lambda state: True)
+    connect_regions(world, Regions.RC73.value, Subregions.RC73Purple.value, lambda state: has_purple(state, world))
+    connect_regions(world, Regions.RC73.value, Subregions.RC73Yellow.value, lambda state: has_yellow(state, world))
+    connect_regions(world, Regions.RC73.value, Regions.CR77.value, lambda state: state.has(Items.KangarooCarving.value, world.player, 1))
+
+    # Chateau Ripto
+
+    connect_regions(world, Regions.CR77.value, Subregions.CR77Wind.value, lambda state: has_wind_2(state, world))
+    connect_regions(world, Regions.CR77.value, Regions.CR81.value, lambda state: has_wind_2(state, world))
+    connect_regions(world, Regions.CR77.value, Regions.CR82.value, lambda state: True)
+
+    connect_regions(world, Regions.CR81.value, Subregions.CR81Free.value, lambda state: True)
+
+    connect_regions(world, Regions.CR82.value, Subregions.CR82Boss.value, lambda state: has_all_breath(state, world))
+    connect_regions(world, Regions.CR82.value, "Victory", lambda state:  has_all_breath(state, world))
 
     world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player, 1)
 
@@ -187,6 +217,9 @@ def has_wind_3(state, world):
 
 def has_wind_x(state, world):
     return has_wind_2(state, world) or state.has(Items.MiniDynamo.value, world.player, 1)
+
+def has_elec(state, world):
+    return state.has(Items.MiniDynamo.value, world.player, 1)
 
 def has_all_breath(state, world):
     return has_ice_2(state, world) and has_fire_2(state, world) and has_wind_2(state, world)
