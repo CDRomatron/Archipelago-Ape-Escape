@@ -18,6 +18,7 @@ from .Rom import Spyro3GBAProcedurePatch, write_tokens
 from .Rules import set_rules
 from Options import AssembleOptions
 import settings
+from .Client import Spyro3GBAClient
 
 class Spyro3GBAWeb(WebWorld):
     theme = "stone"
@@ -82,11 +83,11 @@ class Spyro3GBAWorld(World):
     def create_items(self):
         victory = self.create_item("Victory")
         heartrc = self.create_item(Items.HeartofRhynocsnClocks.value)
-        fairyspellbook = self.create_item(Items.FairySpellBook.value)
         yetilamp = self.create_item(Items.YetiLamp.value)
         herosheartmedal = self.create_item(Items.HerosHeartMedal.value)
         medalofhonor = self.create_item(Items.MedalOfHonor.value)
         minidynamo = self.create_item(Items.MiniDynamo.value)
+
         heartcr = self.create_item(Items.HeartOfChateauRipto.value)
         spotonwarpdevice = self.create_item(Items.SpotOnWarpDevice.value)
         magicgolddust = self.create_item(Items.MagicGoldDust.value)
@@ -97,7 +98,6 @@ class Spyro3GBAWorld(World):
 
         self.get_location("Victory").place_locked_item(victory)
         self.get_location(Constants.Locations.DSRipto.value).place_locked_item(heartrc)
-        self.get_location(Constants.Locations.FLRipto.value).place_locked_item(fairyspellbook)
         self.get_location(Constants.Locations.YSFreezeGoats.value).place_locked_item(yetilamp)
         self.get_location(Constants.Locations.RCWhackARhynoc.value).place_locked_item(herosheartmedal)
         self.get_location(Constants.Locations.KHSolveThe9SquarePuzzle.value).place_locked_item(medalofhonor)
@@ -110,8 +110,16 @@ class Spyro3GBAWorld(World):
 
     def fill_slot_data(self):
         return {
-
+            "item_locations": self.item_location_pairs()
         }
+
+    def item_location_pairs(self):
+        pairs = []
+        for item in self.itempool:
+            if 126000000 < item.code < 1260000500 and 126000000 < item.location.address < 1260000500:
+                pairs.append([item.code, item.location.address])
+        return pairs
+
 
     def generate_output(self, output_directory: str):
         outfilepname = f"_P{self.player}"
