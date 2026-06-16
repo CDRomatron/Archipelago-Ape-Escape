@@ -14,7 +14,7 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS4.value, Subregions.DS4Quest.value, lambda state: has_ds_quest(state, world))
     connect_regions(world, Regions.DS4.value, Regions.FL14.value, lambda state: True)
     connect_regions(world, Regions.DS4.value, Regions.BS46.value, lambda state: has_ice_2(state, world))
-    connect_regions(world, Regions.DS4.value, Regions.PL68.value, lambda state: has_elec(state, world))
+    connect_regions(world, Regions.DS4.value, Regions.PL68.value, lambda state: has_wind_3(state, world))
     connect_regions(world, Regions.DS4.value, Regions.DS6.value, lambda state: has_escape(state, world))
 
     connect_regions(world, Regions.DS6.value, Subregions.DS6Free.value, lambda state: True)
@@ -31,7 +31,7 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.DS8.value, Subregions.DS8Green.value, lambda state: has_green(state, world))
     connect_regions(world, Regions.DS8.value, Regions.KH51.value, lambda state: has_fire_2(state, world) and has_ice_2(state, world))
     connect_regions(world, Regions.DS8.value, Regions.MM57.value, lambda state: True)
-    connect_regions(world, Regions.DS8.value, Regions.CS63.value, lambda state: has_elec(state, world))
+    connect_regions(world, Regions.DS8.value, Regions.CS63.value, lambda state: has_wind_3(state, world))
     connect_regions(world, Regions.DS8.value, Regions.DS9.value, lambda state: has_lamp(state, world))
 
     connect_regions(world, Regions.DS9.value, Subregions.DS9Free.value, lambda state: True)
@@ -217,9 +217,6 @@ def has_wind_3(state, world):
 
 def has_wind_x(state, world):
     return has_wind_2(state, world) or state.has(Items.MiniDynamo.value, world.player, 1)
-
-def has_elec(state, world):
-    return state.has(Items.MiniDynamo.value, world.player, 1)
 
 def has_all_breath(state, world):
     return has_ice_2(state, world) and has_fire_2(state, world) and has_wind_2(state, world)

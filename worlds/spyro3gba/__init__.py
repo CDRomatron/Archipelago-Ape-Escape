@@ -86,7 +86,6 @@ class Spyro3GBAWorld(World):
         yetilamp = self.create_item(Items.YetiLamp.value)
         herosheartmedal = self.create_item(Items.HerosHeartMedal.value)
         medalofhonor = self.create_item(Items.MedalOfHonor.value)
-        minidynamo = self.create_item(Items.MiniDynamo.value)
 
         heartcr = self.create_item(Items.HeartOfChateauRipto.value)
         spotonwarpdevice = self.create_item(Items.SpotOnWarpDevice.value)
@@ -99,9 +98,7 @@ class Spyro3GBAWorld(World):
         self.get_location("Victory").place_locked_item(victory)
         self.get_location(Constants.Locations.DSRipto.value).place_locked_item(heartrc)
         self.get_location(Constants.Locations.YSFreezeGoats.value).place_locked_item(yetilamp)
-        self.get_location(Constants.Locations.RCWhackARhynoc.value).place_locked_item(herosheartmedal)
         self.get_location(Constants.Locations.KHSolveThe9SquarePuzzle.value).place_locked_item(medalofhonor)
-        self.get_location(Constants.Locations.MMButlerFight.value).place_locked_item(minidynamo)
         self.get_location(Constants.Locations.CRRipto.value).place_locked_item(heartcr)
         self.get_location(Constants.Locations.CRRipto2.value).place_locked_item(spotonwarpdevice)
         self.get_location(Constants.Locations.CRMoneybags.value).place_locked_item(magicgolddust)
@@ -123,18 +120,18 @@ class Spyro3GBAWorld(World):
 
     def generate_output(self, output_directory: str):
         outfilepname = f"_P{self.player}"
-        outfilepname += f"_{self.multiworld.get_file_safe_player_name(self.player).replace(' ', '_')}"
-        self.rom_name_text = f'S3GBA{Utils.__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}\0'
-        self.romName = bytearray(self.rom_name_text, "utf8")[:0x20]
-        self.romName.extend([0] * (0x20 - len(self.romName)))
-        self.rom_name = self.romName
-        self.playerName = bytearray(self.multiworld.player_name[self.player], "utf8")[:0x20]
-        self.playerName.extend([0] * (0x20 - len(self.playerName)))
-        patch = Spyro3GBAProcedurePatch(player=self.player, player_name=self.multiworld.player_name[self.player])
-        procedure = [("apply_tokens", ["token_data.bin"])]
-        patch.procedure = procedure
-        write_tokens(self, patch)
+        #outfilepname += f"_{self.multiworld.get_file_safe_player_name(self.player).replace(' ', '_')}"
+        #self.rom_name_text = f'S3GBA{Utils.__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}\0'
+        #self.romName = bytearray(self.rom_name_text, "utf8")[:0x20]
+        #self.romName.extend([0] * (0x20 - len(self.romName)))
+        #self.rom_name = self.romName
+        #self.playerName = bytearray(self.multiworld.player_name[self.player], "utf8")[:0x20]
+        #self.playerName.extend([0] * (0x20 - len(self.playerName)))
+        #patch = Spyro3GBAProcedurePatch(player=self.player, player_name=self.multiworld.player_name[self.player])
+        #procedure = [("apply_tokens", ["token_data.bin"])]
+        #patch.procedure = procedure
+        #write_tokens(self, patch)
 
         # Write Output
-        out_file_name = self.multiworld.get_out_file_name_base(self.player)
-        patch.write(os.path.join(output_directory, f"{out_file_name}{patch.patch_file_ending}"))
+        #out_file_name = self.multiworld.get_out_file_name_base(self.player)
+        #patch.write(os.path.join(output_directory, f"{out_file_name}{patch.patch_file_ending}"))

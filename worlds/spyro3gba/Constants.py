@@ -11,7 +11,7 @@ class Items(Enum):
     SpyroActionFigure = "Spyro Action Figure"
     HeartofRhynocsnClocks = "Heart of Rhynocs n' Clocks"
     ExtensoGripAttachment = "Extenso-Grip Attachment"
-    LeftHalfoftheGreenChestKey = "Left Hald of the Green Chest Key"
+    LeftHalfoftheGreenChestKey = "Left Half of the Green Chest Key"
     BookBGoneStorageUnit = "Book-B-Gone Storage Unit"
     YetiHairClimbingRope = "Yeti Hair Climbing Rope"
     HypnoticLightOrgan = "Hypnotic Light Organ"

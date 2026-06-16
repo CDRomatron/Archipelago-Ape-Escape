@@ -98,16 +98,17 @@ item_table_shuffle = {
     Items.RooPottery.value: 0xA1,
     Items.RightHalfOfTheYellowChestKey.value: 0xA2,
     Items.MagicRedDust.value: 0xA6,
-    Items.FairySpellBook.value: 0x51
+    Items.FairySpellBook.value: 0x51,
+    Items.MiniDynamo.value: 0x85,
+    Items.HerosHeartMedal.value: 0x6F
 }
 
 item_table_static = {
     "Victory": 0,
     Items.HeartofRhynocsnClocks.value: 0x47,
     Items.YetiLamp.value: 0x54,
-    Items.HerosHeartMedal.value: 0x6F,
+
     Items.MedalOfHonor.value: 0x80,
-    Items.MiniDynamo.value: 0x85,
     Items.HeartOfChateauRipto.value: 0xA3,
     Items.SpotOnWarpDevice.value: 0xA4,
     Items.MagicGoldDust.value: 0xA5
