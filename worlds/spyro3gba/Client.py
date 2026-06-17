@@ -371,6 +371,10 @@ class Spyro3GBAClient(BizHawkClient):
                 elif x == 0xA3:
                     locations_to_send.add(0xA3 + self.offset)
                     locations_to_send.add(0x0 + self.offset)
+                    await ctx.send_msgs([{
+                        "cmd": "StatusUpdate",
+                        "status": ClientStatus.CLIENT_GOAL
+                    }])
                 # Spot On Warp Device
                 elif x == 0xA4:
                     locations_to_send.add(0xA4 + self.offset)
