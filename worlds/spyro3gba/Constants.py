@@ -392,4 +392,5 @@ class Subregions(Enum):
     RC73Purple = "Rhynocs n' Clocks - Rhynoc Retreat [73] - Yellow"
     CR77Wind = "Chateau Ripto - Ripto's Grand Expanse [77] - Wind"
     CR81Free = "Chateau Ripto - Moneybags' Vault [81] - Free"
+    CR81Yellow = "Chateau Ripto - Moneybags' Vault [81] - Yellow"
     CR82Boss = "Chateau Ripto - Ripto's Throne Room [82] - Boss"

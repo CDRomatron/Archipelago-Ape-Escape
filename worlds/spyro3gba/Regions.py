@@ -196,6 +196,7 @@ def create_regions(world: "Spyro3GBAWorld"):
 
     cr81 = Region(Regions.CR81.value, player, multiworld)
     cr81Free = Region(Subregions.CR81Free.value, player, multiworld)
+    cr81Yellow = Region(Subregions.CR81Yellow.value, player, multiworld)
 
     cr82 = Region(Regions.CR82.value, player, multiworld)
     cr82Boss = Region(Subregions.CR82Boss.value, player, multiworld)
@@ -288,8 +289,9 @@ def create_regions(world: "Spyro3GBAWorld"):
     rc73Purple.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], rc73Purple) for loc_name in get_array([0x9B])]
     rc73Yellow.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], rc73Yellow) for loc_name in get_array([0x9F,0xA0])]
 
-    cr77Wind.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cr77Wind) for loc_name in get_array([0xA2,0xA5,0xA6])]
+    cr77Wind.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cr77Wind) for loc_name in get_array([0xA2,0xA5])]
     cr81Free.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cr81Free) for loc_name in get_array([0xA1])]
+    cr81Yellow.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cr81Yellow) for loc_name in get_array([0xA6])]
     cr82Boss.locations += [Spyro3GBALocation(player, loc_name, location_table[loc_name], cr82Boss) for loc_name in get_array([0xA3,0xA4])]
 
 
@@ -309,7 +311,7 @@ def create_regions(world: "Spyro3GBAWorld"):
     regions += [cs63, cs63Free, cs64, cs64Free, cs64Quest, cs64Green, cs64Yellow, cs64Wind]
     regions += [pl3, pl3Ice, pl3IceGreen, pl3IcePurple, pl3IceYellow, pl68, pl68Red, pl68Purple, pl69, pl69Free]
     regions += [rc72, rc72Free, rc73, rc73Free, rc73Purple, rc73Yellow]
-    regions += [cr77, cr77Wind, cr81, cr81Free, cr82, cr82Boss]
+    regions += [cr77, cr77Wind, cr81, cr81Free, cr81Yellow, cr82, cr82Boss]
 
     multiworld.regions.extend(regions)
 

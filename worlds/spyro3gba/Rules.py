@@ -194,6 +194,7 @@ def set_rules(world: "Spyro3GBAWorld"):
     connect_regions(world, Regions.CR77.value, Regions.CR82.value, lambda state: True)
 
     connect_regions(world, Regions.CR81.value, Subregions.CR81Free.value, lambda state: True)
+    connect_regions(world, Regions.CR81.value, Subregions.CR81Yellow.value, lambda state: has_yellow(state, world))
 
     connect_regions(world, Regions.CR82.value, Subregions.CR82Boss.value, lambda state: has_all_breath(state, world))
     connect_regions(world, Regions.CR82.value, "Victory", lambda state:  has_all_breath(state, world))
