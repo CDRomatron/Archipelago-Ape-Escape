@@ -48,6 +48,9 @@ class Spyro3GBAClient(BizHawkClient):
 
     offset = 126000000
 
+    currentItems = []
+    recievedCount = 0
+
     def __init__(self) -> None:
         super().__init__()
         self.local_checked_locations = set()
@@ -128,289 +131,294 @@ class Spyro3GBAClient(BizHawkClient):
                         if int.from_bytes(reads[x], byteorder="little") & pow(2,y):
                             item_in_inventory.add(0x43 + y + (x*8))
 
-            for x in item_in_inventory:
-                # A
-                if x == 0x4E:
-                    if currentLevel == 4:
-                        locations_to_send.add(0x45 + self.offset)
-                    elif currentLevel == 9:
-                        locations_to_send.add(0x48 + self.offset)
-                    elif currentLevel == 14:
-                        locations_to_send.add(0x4D + self.offset)
-                    elif currentLevel == 15:
-                        locations_to_send.add(0x4E + self.offset)
-                    elif currentLevel == 20:
-                        locations_to_send.add(0x56 + self.offset)
-                    elif currentLevel == 31:
-                        locations_to_send.add(0x5D + self.offset)
-                    elif currentLevel == 35:
-                        locations_to_send.add(0x64 + self.offset)
-                    elif currentLevel == 36:
-                        locations_to_send.add(0x65 + self.offset)
-                    elif currentLevel == 37:
-                        locations_to_send.add(0x66 + self.offset)
-                    elif currentLevel == 42:
-                        locations_to_send.add(0x6C + self.offset)
-                    elif currentLevel == 47:
-                        locations_to_send.add(0x76 + self.offset)
-                    elif currentLevel == 51:
-                        locations_to_send.add(0x7D + self.offset)
-                    elif currentLevel == 52:
-                        locations_to_send.add(0x7E + self.offset)
-                    elif currentLevel == 57:
-                        locations_to_send.add(0x85 + self.offset)
-                    elif currentLevel == 63:
-                        locations_to_send.add(0x8D + self.offset)
-                    elif currentLevel == 64:
-                        locations_to_send.add(0x8E + self.offset)
-                    elif currentLevel == 3:
-                        locations_to_send.add(0x94 + self.offset)
-                    elif currentLevel == 72:
-                        locations_to_send.add(0x9C + self.offset)
-                    elif currentLevel == 73:
-                        locations_to_send.add(0x9D + self.offset)
-                # B
-                elif x == 0x56:
-                    if currentLevel == 4:
-                        locations_to_send.add(0x46 + self.offset)
-                    elif currentLevel == 15:
-                        locations_to_send.add(0x4F + self.offset)
-                    elif currentLevel == 31:
-                        locations_to_send.add(0x5E + self.offset)
-                    elif currentLevel == 36:
-                        locations_to_send.add(0x68 + self.offset)
-                    elif currentLevel == 42:
-                        locations_to_send.add(0x6D + self.offset)
-                    elif currentLevel == 47:
-                        locations_to_send.add(0x77 + self.offset)
-                    elif currentLevel == 52:
-                        locations_to_send.add(0x7F + self.offset)
-                    elif currentLevel == 57:
-                        locations_to_send.add(0x86 + self.offset)
-                    elif currentLevel == 64:
-                        locations_to_send.add(0x8F + self.offset)
-                # C
-                elif x == 0x5D:
-                    if currentLevel == 4:
-                        locations_to_send.add(0x4A + self.offset)
-                    elif currentLevel == 31:
-                        locations_to_send.add(0x60 + self.offset)
-                    elif currentLevel == 36:
-                        locations_to_send.add(0x6A + self.offset)
-                    elif currentLevel == 42:
-                        locations_to_send.add(0x6F + self.offset)
-                    elif currentLevel == 64:
-                        locations_to_send.add(0x90 + self.offset)
-                # D
-                elif x == 0x6D:
-                    if currentLevel == 64:
-                        locations_to_send.add(0x92 + self.offset)
-                # E
-                elif x == 0x76:
-                    if currentLevel == 6:
-                        locations_to_send.add(0x43 + self.offset)
-                    elif currentLevel == 18:
-                        locations_to_send.add(0x50 + self.offset)
-                    elif currentLevel == 29:
-                        locations_to_send.add(0x57 + self.offset)
-                    elif currentLevel == 20:
-                        locations_to_send.add(0x53 + self.offset)
-                    elif currentLevel == 27:
-                        locations_to_send.add(0x58 + self.offset)
-                    elif currentLevel == 31:
-                        locations_to_send.add(0x5B + self.offset)
-                    elif currentLevel == 33:
-                        locations_to_send.add(0x5F + self.offset)
-                    elif currentLevel == 39:
-                        locations_to_send.add(0x67 + self.offset)
-                    elif currentLevel == 44:
-                        locations_to_send.add(0x6E + self.offset)
-                    elif currentLevel == 47:
-                        locations_to_send.add(0x74 + self.offset)
-                    elif currentLevel == 50:
-                        locations_to_send.add(0x78 + self.offset)
-                    elif currentLevel == 52:
-                        locations_to_send.add(0x7C + self.offset)
-                    elif currentLevel == 56:
-                        locations_to_send.add(0x81 + self.offset)
-                    elif currentLevel == 59:
-                        locations_to_send.add(0x83 + self.offset)
-                    elif currentLevel == 61:
-                        locations_to_send.add(0x88 + self.offset)
-                    elif currentLevel == 64:
-                        locations_to_send.add(0x8C + self.offset)
-                    elif currentLevel == 69:
-                        locations_to_send.add(0x98 + self.offset)
-                    elif currentLevel == 81:
-                        locations_to_send.add(0xA1 + self.offset)
-                # F
-                elif x == 0x7E:
-                    if currentLevel == 8:
-                        locations_to_send.add(0x49 + self.offset)
-                    elif currentLevel == 31:
-                        locations_to_send.add(0x61 + self.offset)
-                    elif currentLevel == 36:
-                        locations_to_send.add(0x69 + self.offset)
-                    elif currentLevel == 47:
-                        locations_to_send.add(0x7A + self.offset)
-                    elif currentLevel == 59:
-                        locations_to_send.add(0x8A + self.offset)
-                    elif currentLevel == 64:
-                        locations_to_send.add(0x91 + self.offset)
-                    elif currentLevel == 73:
-                        locations_to_send.add(0x9E + self.offset)
-                    elif currentLevel == 77:
-                        locations_to_send.add(0xA2 + self.offset)
-                # G
-                elif x == 0x86:
-                    if currentLevel == 15:
-                        locations_to_send.add(0x52 + self.offset)
-                    elif currentLevel == 20:
-                        locations_to_send.add(0x55 + self.offset)
-                    elif currentLevel == 34:
-                        locations_to_send.add(0x62 + self.offset)
-                    elif currentLevel == 42:
-                        locations_to_send.add(0x70 + self.offset)
-                    elif currentLevel == 47:
-                        locations_to_send.add(0x79 + self.offset)
-                    elif currentLevel == 52:
-                        locations_to_send.add(0x82 + self.offset)
-                    elif currentLevel == 68:
-                        locations_to_send.add(0x99 + self.offset)
-                # H
-                elif x == 0x8E:
-                    if currentLevel == 20:
-                        locations_to_send.add(0x59 + self.offset)
-                    elif currentLevel == 42:
-                        locations_to_send.add(0x71 + self.offset)
-                    elif currentLevel == 68:
-                        locations_to_send.add(0x9A + self.offset)
-                # I
-                elif x == 0xA6:
-                    if currentLevel == 8:
-                        locations_to_send.add(0x44 + self.offset)
-                    elif currentLevel == 15:
-                        locations_to_send.add(0x4B + self.offset)
-                    elif currentLevel == 47:
-                        locations_to_send.add(0x73 + self.offset)
-                    elif currentLevel == 53:
-                        locations_to_send.add(0x7B + self.offset)
-                    elif currentLevel == 59:
-                        locations_to_send.add(0x89 + self.offset)
-                    elif currentLevel == 64:
-                        locations_to_send.add(0x8B + self.offset)
-                    elif currentLevel == 3:
-                        locations_to_send.add(0x93 + self.offset)
-                # J
-                elif x == 0xA5:
-                    if currentLevel == 15:
-                        locations_to_send.add(0x4C + self.offset)
-                    elif currentLevel == 20:
-                        locations_to_send.add(0x5A + self.offset)
-                    elif currentLevel == 40:
-                        locations_to_send.add(0x63 + self.offset)
-                    elif currentLevel == 42:
-                        locations_to_send.add(0x6B + self.offset)
-                    elif currentLevel == 59:
-                        locations_to_send.add(0x84 + self.offset)
-                    elif currentLevel == 3:
-                        locations_to_send.add(0x95 + self.offset)
-                    elif currentLevel == 73:
-                        locations_to_send.add(0x9B + self.offset)
-                # K
-                elif x == 0xA0:
-                    if currentLevel == 68:
-                        locations_to_send.add(0x96 + self.offset)
-                # L
-                elif x == 0x9F:
-                    if currentLevel == 42:
-                        locations_to_send.add(0x72 + self.offset)
-                    elif currentLevel == 3:
-                        locations_to_send.add(0x97 + self.offset)
-                    elif currentLevel == 73:
-                        locations_to_send.add(0x9F + self.offset)
-                # M
-                elif x == 0x9C:
-                    if currentLevel == 73:
-                        locations_to_send.add(0xA0 + self.offset)
-                    elif currentLevel == 79:
-                        locations_to_send.add(0xA6 + self.offset)
-                # X
-                elif x == 0x64:
-                    if currentLevel == 12:
+            if self.currentItems != item_in_inventory or len(ctx.items_received) != self.recievedCount:
+                self.currentItems = item_in_inventory
+                self.recievedCount = len(ctx.items_received)
+
+
+                for x in item_in_inventory:
+                    # A
+                    if x == 0x4E:
+                        if currentLevel == 4:
+                            locations_to_send.add(0x45 + self.offset)
+                        elif currentLevel == 9:
+                            locations_to_send.add(0x48 + self.offset)
+                        elif currentLevel == 14:
+                            locations_to_send.add(0x4D + self.offset)
+                        elif currentLevel == 15:
+                            locations_to_send.add(0x4E + self.offset)
+                        elif currentLevel == 20:
+                            locations_to_send.add(0x56 + self.offset)
+                        elif currentLevel == 31:
+                            locations_to_send.add(0x5D + self.offset)
+                        elif currentLevel == 35:
+                            locations_to_send.add(0x64 + self.offset)
+                        elif currentLevel == 36:
+                            locations_to_send.add(0x65 + self.offset)
+                        elif currentLevel == 37:
+                            locations_to_send.add(0x66 + self.offset)
+                        elif currentLevel == 42:
+                            locations_to_send.add(0x6C + self.offset)
+                        elif currentLevel == 47:
+                            locations_to_send.add(0x76 + self.offset)
+                        elif currentLevel == 51:
+                            locations_to_send.add(0x7D + self.offset)
+                        elif currentLevel == 52:
+                            locations_to_send.add(0x7E + self.offset)
+                        elif currentLevel == 57:
+                            locations_to_send.add(0x85 + self.offset)
+                        elif currentLevel == 63:
+                            locations_to_send.add(0x8D + self.offset)
+                        elif currentLevel == 64:
+                            locations_to_send.add(0x8E + self.offset)
+                        elif currentLevel == 3:
+                            locations_to_send.add(0x94 + self.offset)
+                        elif currentLevel == 72:
+                            locations_to_send.add(0x9C + self.offset)
+                        elif currentLevel == 73:
+                            locations_to_send.add(0x9D + self.offset)
+                    # B
+                    elif x == 0x56:
+                        if currentLevel == 4:
+                            locations_to_send.add(0x46 + self.offset)
+                        elif currentLevel == 15:
+                            locations_to_send.add(0x4F + self.offset)
+                        elif currentLevel == 31:
+                            locations_to_send.add(0x5E + self.offset)
+                        elif currentLevel == 36:
+                            locations_to_send.add(0x68 + self.offset)
+                        elif currentLevel == 42:
+                            locations_to_send.add(0x6D + self.offset)
+                        elif currentLevel == 47:
+                            locations_to_send.add(0x77 + self.offset)
+                        elif currentLevel == 52:
+                            locations_to_send.add(0x7F + self.offset)
+                        elif currentLevel == 57:
+                            locations_to_send.add(0x86 + self.offset)
+                        elif currentLevel == 64:
+                            locations_to_send.add(0x8F + self.offset)
+                    # C
+                    elif x == 0x5D:
+                        if currentLevel == 4:
+                            locations_to_send.add(0x4A + self.offset)
+                        elif currentLevel == 31:
+                            locations_to_send.add(0x60 + self.offset)
+                        elif currentLevel == 36:
+                            locations_to_send.add(0x6A + self.offset)
+                        elif currentLevel == 42:
+                            locations_to_send.add(0x6F + self.offset)
+                        elif currentLevel == 64:
+                            locations_to_send.add(0x90 + self.offset)
+                    # D
+                    elif x == 0x6D:
+                        if currentLevel == 64:
+                            locations_to_send.add(0x92 + self.offset)
+                    # E
+                    elif x == 0x76:
+                        if currentLevel == 6:
+                            locations_to_send.add(0x43 + self.offset)
+                        elif currentLevel == 18:
+                            locations_to_send.add(0x50 + self.offset)
+                        elif currentLevel == 29:
+                            locations_to_send.add(0x57 + self.offset)
+                        elif currentLevel == 20:
+                            locations_to_send.add(0x53 + self.offset)
+                        elif currentLevel == 27:
+                            locations_to_send.add(0x58 + self.offset)
+                        elif currentLevel == 31:
+                            locations_to_send.add(0x5B + self.offset)
+                        elif currentLevel == 33:
+                            locations_to_send.add(0x5F + self.offset)
+                        elif currentLevel == 39:
+                            locations_to_send.add(0x67 + self.offset)
+                        elif currentLevel == 44:
+                            locations_to_send.add(0x6E + self.offset)
+                        elif currentLevel == 47:
+                            locations_to_send.add(0x74 + self.offset)
+                        elif currentLevel == 50:
+                            locations_to_send.add(0x78 + self.offset)
+                        elif currentLevel == 52:
+                            locations_to_send.add(0x7C + self.offset)
+                        elif currentLevel == 56:
+                            locations_to_send.add(0x81 + self.offset)
+                        elif currentLevel == 59:
+                            locations_to_send.add(0x83 + self.offset)
+                        elif currentLevel == 61:
+                            locations_to_send.add(0x88 + self.offset)
+                        elif currentLevel == 64:
+                            locations_to_send.add(0x8C + self.offset)
+                        elif currentLevel == 69:
+                            locations_to_send.add(0x98 + self.offset)
+                        elif currentLevel == 81:
+                            locations_to_send.add(0xA1 + self.offset)
+                    # F
+                    elif x == 0x7E:
+                        if currentLevel == 8:
+                            locations_to_send.add(0x49 + self.offset)
+                        elif currentLevel == 31:
+                            locations_to_send.add(0x61 + self.offset)
+                        elif currentLevel == 36:
+                            locations_to_send.add(0x69 + self.offset)
+                        elif currentLevel == 47:
+                            locations_to_send.add(0x7A + self.offset)
+                        elif currentLevel == 59:
+                            locations_to_send.add(0x8A + self.offset)
+                        elif currentLevel == 64:
+                            locations_to_send.add(0x91 + self.offset)
+                        elif currentLevel == 73:
+                            locations_to_send.add(0x9E + self.offset)
+                        elif currentLevel == 77:
+                            locations_to_send.add(0xA2 + self.offset)
+                    # G
+                    elif x == 0x86:
+                        if currentLevel == 15:
+                            locations_to_send.add(0x52 + self.offset)
+                        elif currentLevel == 20:
+                            locations_to_send.add(0x55 + self.offset)
+                        elif currentLevel == 34:
+                            locations_to_send.add(0x62 + self.offset)
+                        elif currentLevel == 42:
+                            locations_to_send.add(0x70 + self.offset)
+                        elif currentLevel == 47:
+                            locations_to_send.add(0x79 + self.offset)
+                        elif currentLevel == 52:
+                            locations_to_send.add(0x82 + self.offset)
+                        elif currentLevel == 68:
+                            locations_to_send.add(0x99 + self.offset)
+                    # H
+                    elif x == 0x8E:
+                        if currentLevel == 20:
+                            locations_to_send.add(0x59 + self.offset)
+                        elif currentLevel == 42:
+                            locations_to_send.add(0x71 + self.offset)
+                        elif currentLevel == 68:
+                            locations_to_send.add(0x9A + self.offset)
+                    # I
+                    elif x == 0xA6:
+                        if currentLevel == 8:
+                            locations_to_send.add(0x44 + self.offset)
+                        elif currentLevel == 15:
+                            locations_to_send.add(0x4B + self.offset)
+                        elif currentLevel == 47:
+                            locations_to_send.add(0x73 + self.offset)
+                        elif currentLevel == 53:
+                            locations_to_send.add(0x7B + self.offset)
+                        elif currentLevel == 59:
+                            locations_to_send.add(0x89 + self.offset)
+                        elif currentLevel == 64:
+                            locations_to_send.add(0x8B + self.offset)
+                        elif currentLevel == 3:
+                            locations_to_send.add(0x93 + self.offset)
+                    # J
+                    elif x == 0xA5:
+                        if currentLevel == 15:
+                            locations_to_send.add(0x4C + self.offset)
+                        elif currentLevel == 20:
+                            locations_to_send.add(0x5A + self.offset)
+                        elif currentLevel == 40:
+                            locations_to_send.add(0x63 + self.offset)
+                        elif currentLevel == 42:
+                            locations_to_send.add(0x6B + self.offset)
+                        elif currentLevel == 59:
+                            locations_to_send.add(0x84 + self.offset)
+                        elif currentLevel == 3:
+                            locations_to_send.add(0x95 + self.offset)
+                        elif currentLevel == 73:
+                            locations_to_send.add(0x9B + self.offset)
+                    # K
+                    elif x == 0xA0:
+                        if currentLevel == 68:
+                            locations_to_send.add(0x96 + self.offset)
+                    # L
+                    elif x == 0x9F:
+                        if currentLevel == 42:
+                            locations_to_send.add(0x72 + self.offset)
+                        elif currentLevel == 3:
+                            locations_to_send.add(0x97 + self.offset)
+                        elif currentLevel == 73:
+                            locations_to_send.add(0x9F + self.offset)
+                    # M
+                    elif x == 0x9C:
+                        if currentLevel == 73:
+                            locations_to_send.add(0xA0 + self.offset)
+                        elif currentLevel == 79:
+                            locations_to_send.add(0xA6 + self.offset)
+                    # X
+                    elif x == 0x64:
+                        if currentLevel == 12:
+                            locations_to_send.add(0x47 + self.offset)
+                        elif currentLevel == 16:
+                            locations_to_send.add(0x51 + self.offset)
+                        elif currentLevel == 19:
+                            locations_to_send.add(0x54 + self.offset)
+                        elif currentLevel == 46:
+                            locations_to_send.add(0x75 + self.offset)
+                        elif currentLevel == 55:
+                            locations_to_send.add(0x80 + self.offset)
+                        elif currentLevel == 60:
+                            locations_to_send.add(0x87 + self.offset)
+                        elif currentLevel == 82:
+                            locations_to_send.add(0xA3 + self.offset)
+                            locations_to_send.add(0xA4 + self.offset)
+                        elif currentLevel == 77:
+                            locations_to_send.add(0xA5 + self.offset)
+                    # BB
+                    elif x == 0x8D:
+                        if currentLevel == 30:
+                            locations_to_send.add(0x5C + self.offset)
+                    # Heart RC
+                    elif x == 0x47:
                         locations_to_send.add(0x47 + self.offset)
-                    elif currentLevel == 16:
-                        locations_to_send.add(0x51 + self.offset)
-                    elif currentLevel == 19:
+                    # Yeti Lamp
+                    elif x == 0x54:
                         locations_to_send.add(0x54 + self.offset)
-                    elif currentLevel == 46:
-                        locations_to_send.add(0x75 + self.offset)
-                    elif currentLevel == 55:
+                    # Medal Of Honor
+                    elif x == 0x80:
                         locations_to_send.add(0x80 + self.offset)
-                    elif currentLevel == 60:
-                        locations_to_send.add(0x87 + self.offset)
-                    elif currentLevel == 82:
+                    # Heart CR
+                    elif x == 0xA3:
                         locations_to_send.add(0xA3 + self.offset)
+                        locations_to_send.add(0x0 + self.offset)
+                        await ctx.send_msgs([{
+                            "cmd": "StatusUpdate",
+                            "status": ClientStatus.CLIENT_GOAL
+                        }])
+                    # Spot On Warp Device
+                    elif x == 0xA4:
                         locations_to_send.add(0xA4 + self.offset)
-                    elif currentLevel == 77:
-                        locations_to_send.add(0xA5 + self.offset)
-                # BB
-                elif x == 0x8D:
-                    if currentLevel == 30:
-                        locations_to_send.add(0x5C + self.offset)
-                # Heart RC
-                elif x == 0x47:
-                    locations_to_send.add(0x47 + self.offset)
-                # Yeti Lamp
-                elif x == 0x54:
-                    locations_to_send.add(0x54 + self.offset)
-                # Medal Of Honor
-                elif x == 0x80:
-                    locations_to_send.add(0x80 + self.offset)
-                # Heart CR
-                elif x == 0xA3:
-                    locations_to_send.add(0xA3 + self.offset)
-                    locations_to_send.add(0x0 + self.offset)
+                    # Magic Gold Dust
+                    elif x == 0xA6:
+                        locations_to_send.add(0xA6 + self.offset)
+
+
+                #if item_to_send is not None and item_to_send != set():
+                #    for x in ctx.slot_data["item_locations"]:
+                #        if x[0]-self.offset in item_to_send:
+                #            locations_to_send.add(x[1])
+                #    for x in [0x47,0x54,0x80,0xA3,0xA4,0xA5]:
+                #        if x in item_to_send:
+                #            locations_to_send.add(x+self.offset)
+
+                if locations_to_send is not None and locations_to_send != set():
                     await ctx.send_msgs([{
-                        "cmd": "StatusUpdate",
-                        "status": ClientStatus.CLIENT_GOAL
+                        "cmd": "LocationChecks",
+                        "locations": list(x for x in locations_to_send)
                     }])
-                # Spot On Warp Device
-                elif x == 0xA4:
-                    locations_to_send.add(0xA4 + self.offset)
-                # Magic Gold Dust
-                elif x == 0xA6:
-                    locations_to_send.add(0xA6 + self.offset)
 
+                itemWrites = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-            #if item_to_send is not None and item_to_send != set():
-            #    for x in ctx.slot_data["item_locations"]:
-            #        if x[0]-self.offset in item_to_send:
-            #            locations_to_send.add(x[1])
-            #    for x in [0x47,0x54,0x80,0xA3,0xA4,0xA5]:
-            #        if x in item_to_send:
-            #            locations_to_send.add(x+self.offset)
+                for item in ctx.items_received:
+                    itemID = item.item - self.offset
+                    if itemID not in [0x4E, 0x56, 0x5D, 0x6D, 0x76, 0x7E, 0x86, 0x8E, 0xA5, 0xA6, 0xA0, 0x9C, 0x64, 0x9F, 0x8D]:
+                        page = math.floor((itemID - 0x43) / 8)
+                        byteTotal = 2 ** ((itemID - 0x43) % 8)
+                        itemWrites[page] += byteTotal
 
-            if locations_to_send is not None and locations_to_send != set():
-                await ctx.send_msgs([{
-                    "cmd": "LocationChecks",
-                    "locations": list(x for x in locations_to_send)
-                }])
+                writes = []
+                for x in range(13):
+                    writes += [(0x2FE7 + x, itemWrites[x].to_bytes(8, "little"), "IWRAM")]
 
-            itemWrites = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-            for item in ctx.items_received:
-                itemID = item.item - self.offset
-                if itemID not in [0x4E, 0x56, 0x5D, 0x6D, 0x76, 0x7E, 0x86, 0x8E, 0xA5, 0xA6, 0xA0, 0x9C, 0x64, 0x9F, 0x8D]:
-                    page = math.floor((itemID - 0x43) / 8)
-                    byteTotal = 2 ** ((itemID - 0x43) % 8)
-                    itemWrites[page] += byteTotal
-
-            writes = []
-            for x in range(13):
-                writes += [(0x2FE7 + x, itemWrites[x].to_bytes(8, "little"), "IWRAM")]
-
-            await bizhawk.write(ctx.bizhawk_ctx, writes)
+                await bizhawk.write(ctx.bizhawk_ctx, writes)
 
         except bizhawk.RequestFailedError:
             # Exit handler and return to main loop to reconnect
